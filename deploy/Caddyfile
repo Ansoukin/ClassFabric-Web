@@ -1,0 +1,45 @@
+# ClassFabric 官网 —— 静态站点，根目录 /var/www/classfabric
+# 使用前：域名 A 记录指向 VPS，放行 80/443，其余交给 Caddy 自动签发 HTTPS。
+www.ansoukin.top {
+	redir https://ansoukin.top{uri} permanent
+}
+
+ansoukin.top {
+	root * /var/www/classfabric
+	encode zstd gzip
+	file_server {
+		precompressed gzip
+	}
+
+	# /index.html 与 /x/index.html 统一到目录形式，避免重复页面
+	@idx path_regexp idx ^(.*)/index\.html$
+	redir @idx {re.idx.1}/ permanent
+
+	# 带 ?v= 内容哈希的资源可永久缓存；图片一周；发行版数据 5 分钟；HTML 每次校验
+	@hashed {
+		path *.css *.js *.woff
+		query v=*
+	}
+	header @hashed Cache-Control "public, max-age=31536000, immutable"
+	@media path *.webp *.png *.jpg *.ico *.svg
+	header @media Cache-Control "public, max-age=604800"
+	@data path /data/*
+	header @data Cache-Control "public, max-age=300"
+	@html path / */ *.html
+	header @html Cache-Control "no-cache"
+
+	header {
+		Strict-Transport-Security "max-age=31536000"
+		X-Content-Type-Options "nosniff"
+		Referrer-Policy "strict-origin-when-cross-origin"
+		X-Frame-Options "SAMEORIGIN"
+		Permissions-Policy "camera=(), microphone=(), geolocation=()"
+		Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' 'inline-speculation-rules'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; base-uri 'self'; form-action 'none'; frame-ancestors 'self'"
+		-Server
+	}
+
+	handle_errors {
+		rewrite * /404.html
+		file_server
+	}
+}

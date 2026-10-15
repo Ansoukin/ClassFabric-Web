@@ -241,7 +241,7 @@ section { position: relative; }
   .hero-stage { aspect-ratio: 560 / 640; }
   .scene { --u: calc(100cqw / 560); }
   @supports not (width: 1cqw) { .scene { --u: calc((100vw - 2 * var(--gut)) / 560); } }
-  .hero-stage .cfbar { font-size: calc(var(--u) * 15.5); top: calc(var(--u) * 28); }
+  .hero-stage .cfbar { font-size: calc(var(--u) * 19); top: calc(var(--u) * 26); }
   .hero-stage .w1 { left: calc(var(--u) * 24); top: calc(var(--u) * 130); width: calc(var(--u) * 430); }
   .hero-stage .w2 { left: calc(var(--u) * 100); top: calc(var(--u) * 330); width: calc(var(--u) * 430); }
   .taskbar { height: calc(var(--u) * 40); }
