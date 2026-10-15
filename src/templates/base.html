@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>{{ title }}</title>
+<meta name="description" content="{{ desc }}">
+<link rel="canonical" href="{{ site.url }}{{ path }}">
+<meta name="theme-color" content="#f6f3ec">
+<meta name="color-scheme" content="light dark">
+<meta name="robots" content="{{ robots|default('index,follow,max-image-preview:large') }}">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ClassFabric">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:title" content="{{ og_title|default(title) }}">
+<meta property="og:description" content="{{ desc }}">
+<meta property="og:url" content="{{ site.url }}{{ path }}">
+<meta property="og:image" content="{{ site.url }}/assets/img/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="preload" href="{{ font_url }}" as="font" type="font/woff" crossorigin>
+<link rel="stylesheet" href="{{ asset('css/site.css') }}">
+<script>(function(){var d=document.documentElement;d.classList.add('js');var t;try{t=localStorage.getItem('cf-theme')}catch(e){}if(t!=='dark'&&t!=='light')t=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';d.setAttribute('data-theme',t);if(t==='dark'){var m=document.querySelector('meta[name=theme-color]');if(m)m.content='#13120e'}})()</script>
+<script type="application/ld+json">{{ jsonld|safe }}</script>
+{% block head %}{% endblock %}
+<script type="speculationrules">{"prefetch":[{"where":{"href_matches":"/*"},"eagerness":"moderate"}]}</script>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><symbol id="logo" viewBox="0 0 192 192">{{ logo_inner|safe }}</symbol></svg>
+<a class="skip" href="#main">跳到正文</a>
+<header class="hdr">
+  <div class="wrap-w hdr-in">
+    <a class="brand" href="/" aria-label="ClassFabric 首页"><svg aria-hidden="true"><use href="#logo"/></svg>ClassFabric</a>
+    <nav class="nav" aria-label="主导航">
+      {% for n in nav %}<a href="{{ n.href }}"{% if n.key == page_key %} aria-current="page"{% endif %}>{{ n.label }}</a>{% endfor %}
+    </nav>
+    <div class="hdr-end">
+      <a class="icon-btn" href="{{ site.repo }}" rel="noopener" aria-label="GitHub 仓库">{{ ico('github', 24) }}</a>
+      <button class="icon-btn theme-btn" type="button" aria-label="切换深色模式">{{ ico('sun', 24, cls='sun') }}{{ ico('moon', 24, cls='moon') }}</button>
+      <a class="btn btn-primary btn-sm" href="/download/">下载</a>
+      <button class="icon-btn menu-btn" type="button" aria-label="菜单" aria-expanded="false" aria-controls="sheet">{{ ico('menu', 24) }}</button>
+    </div>
+  </div>
+</header>
+<div class="sheet" id="sheet">
+  {% for n in nav %}<a href="{{ n.href }}">{{ n.label }}{{ ico('chevron_right', 20) }}</a>{% endfor %}
+  <a class="btn btn-primary" href="/download/">下载 Windows 版</a>
+</div>
+<main id="main">
+{% block main %}{% endblock %}
+</main>
+<footer class="ftr">
+  <div class="wrap">
+    <div class="ftr-grid">
+      <div>
+        <a class="brand" href="/"><svg aria-hidden="true"><use href="#logo"/></svg>ClassFabric</a>
+        <p style="margin-top:16px;max-width:24em;color:var(--ink-3)">面向班级多媒体屏幕的课表信息显示工具。ClassIsland 的社区增强版，开源、免费。</p>
+      </div>
+      <div><h4>产品</h4><ul>
+        <li><a href="/features/">功能</a></li><li><a href="/download/">下载</a></li><li><a href="/changelog/">更新日志</a></li>
+      </ul></div>
+      <div><h4>项目</h4><ul>
+        <li><a href="/classisland/">与 ClassIsland 的关系</a></li><li><a href="/community/">社区与贡献</a></li>
+        <li><a href="{{ site.repo }}" rel="noopener">GitHub 仓库</a></li><li><a href="{{ site.web_repo }}" rel="noopener">本站源码</a></li>
+      </ul></div>
+      <div><h4>资源</h4><ul>
+        <li><a href="https://docs.classisland.tech" rel="noopener">使用文档（上游）</a></li>
+        <li><a href="{{ site.repo }}/blob/master/CONTRIBUTING.md" rel="noopener">贡献指南</a></li>
+        <li><a href="{{ site.repo }}/blob/master/doc/Privacy.md" rel="noopener">隐私说明</a></li>
+        <li><a href="{{ site.repo }}/issues" rel="noopener">反馈问题</a></li>
+      </ul></div>
+    </div>
+    <div class="fine">
+      <span>© 2026 ClassFabric 贡献者 · 以 GPL-3.0 协议开源</span>
+      <span>ClassFabric 是基于 ClassIsland 的社区衍生项目，并非 ClassIsland 官方出品。文中产品名称与商标归各自权利人所有。</span>
+    </div>
+  </div>
+</footer>
+<script src="{{ asset('js/main.js') }}" defer></script>
+{% block scripts %}{% endblock %}
+</body>
+</html>
