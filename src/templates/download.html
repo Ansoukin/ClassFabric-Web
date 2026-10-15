@@ -7,7 +7,7 @@
     <h1>下载 ClassFabric</h1>
     <p class="lead">目前仅支持 Windows 10 及以上。选好版本，一键下载。</p>
     <div class="dl-main">
-      <div class="dl-card" id="dl-card" aria-live="polite" data-ico-dl="{{ ico('arrow_download', 24)|e }}" data-ico-chev="{{ ico_inner('chevron_down', 20) }}">
+      <div class="dl-card" id="dl-card" aria-live="polite" data-ico-dl="{{ ico('arrow_download', 24)|string|forceescape }}" data-ico-chev="{{ ico_inner('chevron_down', 20)|string|forceescape }}">
         <div class="grain"></div>
         <div class="ver"><span class="skel" style="width:7em;height:1em"></span></div>
         <noscript><p style="margin-top:20px">请启用 JavaScript，或直接前往 <a style="text-decoration:underline" href="{{ site.repo }}/releases">GitHub Releases</a> 下载。</p></noscript>

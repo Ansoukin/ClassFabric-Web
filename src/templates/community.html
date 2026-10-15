@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block main %}
+<section class="page-head">
+  <div class="wrap">
+    <div class="crumb"><a href="/">首页</a><span>/</span><span>社区与贡献</span></div>
+    <h1>一起把它<br>做得更好。</h1>
+    <p class="lead">ClassFabric 是个人维护的社区项目。目前没有自己的群聊，所有交流都在 GitHub 上进行——问题和答案都能被搜索到，也方便留存。</p>
+  </div>
+</section>
+
+<section class="sec-tight" style="padding-top:0">
+  <div class="wrap">
+    <div class="grid2">
+      <a class="card reveal" href="{{ site.repo }}/issues/new/choose" rel="noopener"><div class="ci">{{ ico('bug', 24) }}</div><h3>反馈问题与建议</h3><p>遇到 Bug 或想要新功能，提交 Issue。请按模板填写，并附上版本号与复现步骤，能大大加快处理。</p></a>
+      <a class="card reveal" style="--i:1" href="{{ site.repo }}/discussions" rel="noopener"><div class="ci">{{ ico('chat', 24) }}</div><h3>讨论与提问</h3><p>使用上的疑问、配置经验、新点子，都可以在 Discussions 里聊。</p></a>
+      <a class="card reveal" href="{{ site.repo }}/blob/master/CONTRIBUTING.md" rel="noopener"><div class="ci">{{ ico('code', 24) }}</div><h3>贡献代码</h3><p>阅读贡献指南后提交 Pull Request。小到一处文案、大到一个新功能都欢迎。</p></a>
+      <a class="card reveal" style="--i:1" href="{{ site.repo }}" rel="noopener"><div class="ci">{{ ico('globe', 24) }}</div><h3>参与翻译</h3><p>界面支持简体中文、繁體中文与 English，翻译通过 Crowdin 协作，入口在软件「设置 → 通用」中。</p></a>
+    </div>
+  </div>
+</section>
+
+<section class="sec-tight">
+  <div class="wrap two">
+    <div class="reveal"><span class="eyebrow">最需要的帮助</span><h2 class="h2" style="font-size:clamp(28px,3.4vw,40px)">如果你想出一份力</h2></div>
+    <div class="prose reveal" style="--i:1;max-width:none">
+      <h3 style="margin-top:0">Linux、macOS、Android 的测试与维护</h3>
+      <p>仓库里保留着这些平台的相关代码，但我们没有对应的测试环境，也没有精力维护，所以暂不提供支持。如果你有设备、愿意长期照看某个平台，请在 Discussions 里开一个话题，我们一起看看怎么做。</p>
+      <h3>测试预览版</h3>
+      <p>预览版新功能最多。装上试用，把遇到的问题反馈到 Issues，是对项目最直接的帮助。</p>
+      <h3>翻译、文档与教程</h3>
+      <p>繁體中文与英文的校对、使用教程、课表模板，都能帮到更多老师和同学。</p>
+    </div>
+  </div>
+</section>
+
+<section class="sec-tight">
+  <div class="wrap">
+    <div class="note">{{ ico('info', 24, 'f') }}<div><b>关于上游社区。</b>ClassIsland 有自己的社区与群聊，可在其官网找到，那里的讨论对通用功能同样有参考价值。ClassFabric 特有的问题，请在本项目的 Issues 反馈，以免打扰上游维护者。<br>致谢：ClassIsland 项目及其全体贡献者，以及启发了 ClassIsland 的 DuguSand/class_form。</div></div>
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,89 @@
+[
+ {
+  "tag": "2.1.1.3",
+  "name": "2.2 MikHail Developer Preview 3",
+  "prerelease": true,
+  "published_at": "2026-10-02T13:40:00Z",
+  "html_url": "https://github.com/Ansoukin/ClassFabric/releases/tag/2.1.1.3",
+  "assets": [
+   {
+    "name": "ClassFabric_windows_x64_selfContained_installer.exe",
+    "size": 119537664,
+    "url": "https://github.com/Ansoukin/ClassFabric/releases/download/2.1.1.3/ClassFabric_windows_x64_selfContained_installer.exe",
+    "digest": ""
+   },
+   {
+    "name": "ClassFabric_windows_x86_selfContained_installer.exe",
+    "size": 114294784,
+    "url": "https://github.com/Ansoukin/ClassFabric/releases/download/2.1.1.3/ClassFabric_windows_x86_selfContained_installer.exe",
+    "digest": ""
+   },
+   {
+    "name": "ClassFabric_windows_arm64_selfContained_installer.exe",
+    "size": 111149056,
+    "url": "https://github.com/Ansoukin/ClassFabric/releases/download/2.1.1.3/ClassFabric_windows_arm64_selfContained_installer.exe",
+    "digest": ""
+   },
+   {
+    "name": "ClassFabric_app_windows_x64_selfContained_folder.zip",
+    "size": 163577856,
+    "url": "https://github.com/Ansoukin/ClassFabric/releases/download/2.1.1.3/ClassFabric_app_windows_x64_selfContained_folder.zip",
+    "digest": ""
+   },
+   {
+    "name": "ClassFabric_app_windows_x86_selfContained_folder.zip",
+    "size": 157286400,
+    "url": "https://github.com/Ansoukin/ClassFabric/releases/download/2.1.1.3/ClassFabric_app_windows_x86_selfContained_folder.zip",
+    "digest": ""
+   },
+   {
+    "name": "ClassFabric_app_windows_arm64_selfContained_folder.zip",
+    "size": 156237824,
+    "url": "https://github.com/Ansoukin/ClassFabric/releases/download/2.1.1.3/ClassFabric_app_windows_arm64_selfContained_folder.zip",
+    "digest": ""
+   },
+   {
+    "name": "ClassFabric_app_windows_x64_full_folder.zip",
+    "size": 93637836,
+    "url": "https://github.com/Ansoukin/ClassFabric/releases/download/2.1.1.3/ClassFabric_app_windows_x64_full_folder.zip",
+    "digest": ""
+   },
+   {
+    "name": "ClassFabric_app_windows_x86_full_folder.zip",
+    "size": 93113548,
+    "url": "https://github.com/Ansoukin/ClassFabric/releases/download/2.1.1.3/ClassFabric_app_windows_x86_full_folder.zip",
+    "digest": ""
+   },
+   {
+    "name": "ClassFabric_app_windows_arm64_full_folder.zip",
+    "size": 92064972,
+    "url": "https://github.com/Ansoukin/ClassFabric/releases/download/2.1.1.3/ClassFabric_app_windows_arm64_full_folder.zip",
+    "digest": ""
+   }
+  ]
+ },
+ {
+  "tag": "2.1.1.2",
+  "name": "",
+  "prerelease": true,
+  "published_at": "2026-09-13T00:00:00Z",
+  "html_url": "https://github.com/Ansoukin/ClassFabric/releases/tag/2.1.1.2",
+  "assets": []
+ },
+ {
+  "tag": "2.1.1.1",
+  "name": "",
+  "prerelease": true,
+  "published_at": "2026-09-10T00:00:00Z",
+  "html_url": "https://github.com/Ansoukin/ClassFabric/releases/tag/2.1.1.1",
+  "assets": []
+ },
+ {
+  "tag": "2.1.0.1",
+  "name": "KapoKali",
+  "prerelease": false,
+  "published_at": "2026-09-08T15:15:00Z",
+  "html_url": "https://github.com/Ansoukin/ClassFabric/releases/tag/2.1.0.1",
+  "assets": []
+ }
+]
