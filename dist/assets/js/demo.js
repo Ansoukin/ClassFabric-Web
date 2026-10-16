@@ -3,7 +3,7 @@
   'use strict';
   var root = document.querySelector('[data-demo]');
   if (!root || !window.CFBar) return;
-  var T0 = 450, T1 = 1050, SPAN = T1 - T0; // 07:30 – 17:30
+  var T0 = 450, T1 = 960, SPAN = T1 - T0; // 07:30 – 16:00
   var bar = CFBar.mount(root.querySelector('[data-bar]'));
   var track = root.querySelector('.track'), head = root.querySelector('.head');
   var timeEl = root.querySelector('.time'), nowEl = root.querySelector('.now');
@@ -18,14 +18,14 @@
     track.insertBefore(b, head);
   });
   var blks = [].slice.call(track.querySelectorAll('.blk'));
-  for (var h = 8; h <= 17; h += 1) {
+  for (var h = 8; h <= 15; h += 1) {
     var s = document.createElement('span'); s.textContent = h + ':00'; s.style.left = ((h * 60 - T0) / SPAN * 100) + '%'; ticks.appendChild(s);
   }
 
   function label(t) {
     var c = bar.currentLesson(t);
     if (c) return c.n + ' · 第 ' + (CFBar.CLASSES.indexOf(c) + 1) + ' 节';
-    return t >= 720 && t < 840 ? '午休' : '课间';
+    return '课间';
   }
   function paint(t) {
     timeEl.textContent = CFBar.fmt(t);
@@ -37,7 +37,7 @@
     track.setAttribute('aria-valuetext', CFBar.fmt(t) + '，' + l);
   }
 
-  var player = CFBar.play(bar, { from: 524, to: T1, speed: 7, fx: false, endAlert: true, onTick: paint });
+  var player = CFBar.play(bar, { from: 524, to: T1, speed: 7, fx: false, endAlert: true, preAlert: true, onTick: paint });
   bar.onalert = function (on, fx) { if (fx !== undefined) stage.classList.toggle('fx', on && fx); };
   function syncBtn() {
     var r = player.running;
@@ -78,11 +78,12 @@
   root.querySelectorAll('[data-alert]').forEach(function (b) {
     b.addEventListener('click', function () {
       var k = b.getAttribute('data-alert'), t = player.t, c = bar.currentLesson(t);
-      var next = CFBar.CLASSES.filter(function (x) { return x.s > t; })[0] || CFBar.CLASSES[0];
+      var nx = CFBar.CLASSES.filter(function (x) { return x.s > t; })[0] || CFBar.CLASSES[0];
+      var prev = CFBar.CLASSES.filter(function (x) { return x.e <= t; }).pop() || CFBar.CLASSES[0];
       bar.endAlert();
-      if (k === 'start') bar.alert('上课', (c || next).n, CFBar.fmt((c || next).s) + '-' + CFBar.fmt((c || next).e), false, 3200);
-      else if (k === 'end') bar.alert('下课', '休息一下', '', false, 3200);
-      else bar.alert('强调', (c || next).n, '音效 · 特效 · 语音', true, 3800);
+      if (k === 'start') bar.alertStart(c || nx, true);
+      else if (k === 'end') bar.alertBreak(c || prev);
+      else bar.alertPre(c ? (CFBar.next(c) || c) : nx);
     });
   });
   paint(524);

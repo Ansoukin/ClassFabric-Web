@@ -15,7 +15,7 @@
   var dstr = dt.getFullYear() + '/' + (dt.getMonth() + 1) + '/' + dt.getDate();
   function tick(t) { if (ck) ck.innerHTML = Math.floor(t / 60) + ':' + ('0' + Math.floor(t % 60)).slice(-2) + '<br>' + dstr; }
   tick(552);
-  CFBar.play(bar, { from: 524, to: 575, speed: 5.4, fx: true, endAlert: false, onTick: tick });
+  CFBar.play(bar, { from: 524, to: 580, speed: 5.4, fx: true, endAlert: true, preAlert: true, onTick: tick });
 
   // 视差：窗口随指针轻微位移（仅精细指针设备）
   if (!matchMedia('(pointer: fine)').matches) return;
