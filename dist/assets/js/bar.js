@@ -3,10 +3,17 @@ window.CFBar = (function () {
   'use strict';
   var pad = function (n) { return (n < 10 ? '0' : '') + n; };
   var fmt = function (m) { m = Math.floor(m); return pad(Math.floor(m / 60)) + ':' + pad(m % 60); };
+  var SV = function (d) { return '<svg viewBox="0 0 20 20" aria-hidden="true">' + d + '</svg>'; };
+  var ICON = {
+    book: SV('<path d="M4 4.5A1.5 1.5 0 0 1 5.5 3H16v12H5.5A1.5 1.5 0 0 0 4 16.5zM4 16.5A1.5 1.5 0 0 0 5.5 18H16"/><path d="M8 7h5"/>'),
+    sigma: 'Σ', aa: 'Aa',
+    atom: SV('<ellipse cx="10" cy="10" rx="8" ry="3.2"/><ellipse cx="10" cy="10" rx="8" ry="3.2" transform="rotate(60 10 10)"/><ellipse cx="10" cy="10" rx="8" ry="3.2" transform="rotate(120 10 10)"/>'),
+    flask: SV('<path d="M7.5 3h5M8.5 3v5.2L4 16a1.4 1.4 0 0 0 1.2 2h9.6A1.4 1.4 0 0 0 16 16l-4.500-7.800V3"/><path d="M6.200 13h7.600"/>')
+  };
   var DAY = [
-    { c: '语', n: '语文', s: 480, e: 520 }, { c: '数', n: '数学', s: 530, e: 570 },
-    { c: '英', n: '英语', s: 580, e: 620 }, { c: '物', n: '物理', s: 630, e: 670 },
-    { c: '化', n: '化学', s: 680, e: 720 }, null,
+    { c: '语', n: '语文', s: 480, e: 520, i: 'book' }, { c: '数', n: '数学', s: 530, e: 570, i: 'sigma' },
+    { c: '英', n: '英语', s: 580, e: 620, i: 'aa' }, { c: '物', n: '物理', s: 630, e: 670, i: 'atom' },
+    { c: '化', n: '化学', s: 680, e: 720, i: 'flask' }, null,
     { c: '生', n: '生物', s: 840, e: 880 }, { c: '地', n: '地理', s: 890, e: 930 },
     { c: '体', n: '体育', s: 940, e: 980 }, { c: '自', n: '自习', s: 990, e: 1030 }
   ];
@@ -20,25 +27,25 @@ window.CFBar = (function () {
     var now = new Date();
     var dateText = WD[now.getDay()] + ' ' + pad(now.getMonth() + 1) + '/' + pad(now.getDate());
     var h = '<div class="shell"><div class="main">' +
-      '<span class="cmp opt">' + dateText + '</span><i class="sep opt"></i><div class="les">';
+      '<span class="cmp opt">' + dateText + '</span><div class="les">';
     DAY.forEach(function (d) {
-      if (!d) { h += '<i class="sep"></i>'; return; }
-      h += '<span class="it"><span class="ch">' + d.c + '</span><span class="ex"><span class="nm">' + d.n +
-        '</span><span class="tm">' + fmt(d.s) + '–' + fmt(d.e) + '</span></span><i class="pg"></i></span>';
+      if (!d) return;
+      var ic = d.i ? '<span class="ic">' + ICON[d.i] + '</span>' : '';
+      h += '<span class="it"><span class="ch">' + d.c + '</span><span class="ex">' + ic + '<span class="nm">' + d.n +
+        '</span><span class="tm">' + fmt(d.s) + '-' + fmt(d.e) + '</span><span class="cd"></span></span><span class="pgw"><i class="pg"></i></span></span>';
     });
-    h += '</div><i class="sep opt"></i><span class="cmp opt">多云 24°</span><i class="sep opt"></i><span class="cmp opt">距期中 12 天</span>' +
-      '<i class="sep"></i><span class="cmp clk">--:--</span></div>' +
-      '<div class="alert"><div class="ai"><i class="dot"></i><span class="at"></span><span class="sub"></span></div></div></div>';
+    h += '</div><span class="cmp opt clk"><span class="hh">--</span><span class="col">:</span><span class="mm">--</span></span></div>' +
+      '<div class="alert"><div class="ai"><b class="mask"></b><span class="ov"><span class="at"></span><span class="sub"></span></span></div></div></div>';
     el.classList.add('cfbar');
     el.innerHTML = h;
     el.setAttribute('role', 'img');
     el.setAttribute('aria-label', '课表条示意：显示当天课表、当前课程与上下课提醒');
 
     var shell = el.querySelector('.shell'), main = el.querySelector('.main'), ai = el.querySelector('.ai');
-    var clk = el.querySelector('.clk'), at = el.querySelector('.at'), sub = el.querySelector('.sub');
+    var hh = el.querySelector('.hh'), mm = el.querySelector('.mm'), col = el.querySelector('.col'), mask = el.querySelector('.mask'), at = el.querySelector('.at'), sub = el.querySelector('.sub');
     var els = [].slice.call(el.querySelectorAll('.it')), items = [], k = 0, timer = null, morphT = null;
     DAY.forEach(function (d) { if (d) items.push({ d: d, el: els[k++], pg: null }); });
-    items.forEach(function (it) { it.pg = it.el.querySelector('.pg'); });
+    items.forEach(function (it) { it.pg = it.el.querySelector('.pg'); it.cd = it.el.querySelector('.cd'); });
 
     function fit(animate) {
       var w = main.offsetWidth;
@@ -59,20 +66,24 @@ window.CFBar = (function () {
           it.el.classList.toggle('cur', inside);
           it.el.classList.toggle('past', t >= it.d.e);
           var p = inside ? (t - it.d.s) / (it.d.e - it.d.s) : 0;
-          it.pg.style.width = inside ? 'calc((100% - 1.1em) * ' + p.toFixed(3) + ')' : '0';
+          it.pg.style.width = inside ? (p * 100).toFixed(2) + '%' : '0';
+          var left = inside ? (it.d.e - t) * 60 : 0, last = inside && left <= 120;
+          it.el.classList.toggle('last', last);
+          if (last) it.cd.textContent = '-' + pad(Math.floor(left / 60)) + ':' + pad(Math.floor(left % 60));
           if (inside) cur = i;
         });
-        clk.textContent = fmt(t);
+        hh.textContent = pad(Math.floor(t / 60)); mm.textContent = pad(Math.floor(t % 60));
+        col.classList.toggle('off', Math.floor(t * 60) % 2 === 1);
         return cur;
       },
       currentLesson: function (t) {
         for (var i = 0; i < CLASSES.length; i++) if (t >= CLASSES[i].s && t < CLASSES[i].e) return CLASSES[i];
         return null;
       },
-      alert: function (text, subText, fx, ms) {
+      alert: function (maskText, text, subText, fx, ms) {
         if (api.alerting) return;
         api.alerting = true;
-        at.textContent = text; sub.textContent = subText || '';
+        mask.textContent = maskText; at.textContent = text; sub.textContent = subText || '';
         el.classList.remove('fx'); el.classList.add('alerting'); if (fx) el.classList.add('fx');
         fit(true);
         if (api.onalert) api.onalert(true, !!fx);
@@ -105,8 +116,8 @@ window.CFBar = (function () {
       var prev = t; t += dt * o.speed;
       if (t >= o.to) { t = o.from; prev = t - 0.001; bar.setTime(t); if (o.onTick) o.onTick(t); return; }
       CLASSES.forEach(function (c) {
-        if (prev < c.s && t >= c.s && o.startAlert !== false) bar.alert('上课了 · ' + c.n, fmt(c.s) + '–' + fmt(c.e), o.fx);
-        if (prev < c.e && t >= c.e && o.endAlert) bar.alert('下课了 · 休息一下', '', false);
+        if (prev < c.s && t >= c.s && o.startAlert !== false) bar.alert('上课', c.n, fmt(c.s) + '-' + fmt(c.e), o.fx);
+        if (prev < c.e && t >= c.e && o.endAlert) bar.alert('下课', '休息一下', '', false);
       });
       bar.setTime(t);
       if (o.onTick) o.onTick(t);

@@ -80,9 +80,9 @@
       var k = b.getAttribute('data-alert'), t = player.t, c = bar.currentLesson(t);
       var next = CFBar.CLASSES.filter(function (x) { return x.s > t; })[0] || CFBar.CLASSES[0];
       bar.endAlert();
-      if (k === 'start') bar.alert('上课了 · ' + (c || next).n, CFBar.fmt((c || next).s) + '–' + CFBar.fmt((c || next).e), false, 3200);
-      else if (k === 'end') bar.alert('下课了 · 休息一下', '', false, 3200);
-      else bar.alert('强调提醒 · ' + (c || next).n, '音效 · 特效 · 语音', true, 3800);
+      if (k === 'start') bar.alert('上课', (c || next).n, CFBar.fmt((c || next).s) + '-' + CFBar.fmt((c || next).e), false, 3200);
+      else if (k === 'end') bar.alert('下课', '休息一下', '', false, 3200);
+      else bar.alert('强调', (c || next).n, '音效 · 特效 · 语音', true, 3800);
     });
   });
   paint(524);
