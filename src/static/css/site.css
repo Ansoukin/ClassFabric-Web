@@ -188,7 +188,6 @@ section { position: relative; }
 .cfbar .main { position: absolute; left: 0; top: 0; height: 100%; display: flex; align-items: center; padding: 0 .4em; white-space: nowrap; transition: opacity .3s, transform .5s var(--ease), filter .3s; }
 .cfbar .cmp { padding: 0 .4em; font-variant-numeric: tabular-nums; }
 .cfbar .cmp:first-child { margin-right: .6em; }
-.cfbar .clk { margin-left: .6em; margin-right: .2em; }
 .cfbar .les { display: flex; align-items: center; height: 100%; }
 .cfbar .it { position: relative; display: flex; align-items: center; height: 100%; padding: 0 .625em; transition: opacity .4s; }
 .cfbar .it .ch { display: block; max-width: 1.6em; overflow: hidden; font-size: 1.125em; transition: max-width .5s var(--ease), opacity .25s; }
@@ -210,8 +209,15 @@ section { position: relative; }
 .cfbar .clk .col { transition: opacity .15s; }
 .cfbar .clk .col.off { opacity: 0; }
 .cfbar .alert { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; opacity: 0; transform: scale(.96); filter: blur(4px); white-space: nowrap; transition: opacity .3s, transform .5s var(--ease), filter .3s; pointer-events: none; }
-.cfbar .ai { display: inline-flex; align-items: center; gap: .75em; padding: 0 1em; }
-.cfbar .mask { display: inline-flex; align-items: center; height: 1.9em; padding: 0 .8em; border-radius: .4em; background: var(--acc); color: #00131c; font-size: 1.125em; font-weight: 700; }
+.cfbar .ai { display: inline-flex; align-items: center; gap: .75em; padding: 0 1.25em; }
+.cfbar .mask { font-size: .9em; font-weight: 600; color: var(--acc); }
+.cfbar .ap { position: absolute; left: 0; right: 0; bottom: 0; height: .1875em; background: var(--acc); transform-origin: left center; }
+.cfbar.alerting .ap { animation: cfshrink var(--ms, 3200ms) linear both; }
+@keyframes cfshrink { from { transform: scaleX(1); } to { transform: scaleX(0); } }
+.cfbar.alerting.fx .shell { background: var(--acc); border-color: transparent; }
+.cfbar.alerting.fx .mask, .cfbar.alerting.fx .sub { color: rgba(0, 19, 28, .72); }
+.cfbar.alerting.fx .at { color: #00131c; }
+.cfbar.alerting.fx .ap { background: #00131c; opacity: .5; }
 .cfbar .ov { display: inline-flex; align-items: baseline; gap: .5em; }
 .cfbar .ov .at { font-size: 1.25em; font-weight: 700; }
 .cfbar .ov .sub { font-size: .875em; color: rgba(255, 255, 255, .78); font-variant-numeric: tabular-nums; }

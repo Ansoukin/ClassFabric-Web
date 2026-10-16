@@ -34,15 +34,15 @@ window.CFBar = (function () {
       h += '<span class="it"><span class="ch">' + d.c + '</span><span class="ex">' + ic + '<span class="nm">' + d.n +
         '</span><span class="tm">' + fmt(d.s) + '-' + fmt(d.e) + '</span><span class="cd"></span></span><span class="pgw"><i class="pg"></i></span></span>';
     });
-    h += '</div><span class="cmp opt clk"><span class="hh">--</span><span class="col">:</span><span class="mm">--</span></span></div>' +
-      '<div class="alert"><div class="ai"><b class="mask"></b><span class="ov"><span class="at"></span><span class="sub"></span></span></div></div></div>';
+    h += '</div></div>' +
+      '<div class="alert"><div class="ai"><span class="ov"><b class="mask"></b><span class="at"></span><span class="sub"></span></span></div><i class="ap"></i></div></div>';
     el.classList.add('cfbar');
     el.innerHTML = h;
     el.setAttribute('role', 'img');
     el.setAttribute('aria-label', '课表条示意：显示当天课表、当前课程与上下课提醒');
 
     var shell = el.querySelector('.shell'), main = el.querySelector('.main'), ai = el.querySelector('.ai');
-    var hh = el.querySelector('.hh'), mm = el.querySelector('.mm'), col = el.querySelector('.col'), mask = el.querySelector('.mask'), at = el.querySelector('.at'), sub = el.querySelector('.sub');
+    var mask = el.querySelector('.mask'), at = el.querySelector('.at'), sub = el.querySelector('.sub');
     var els = [].slice.call(el.querySelectorAll('.it')), items = [], k = 0, timer = null, morphT = null;
     DAY.forEach(function (d) { if (d) items.push({ d: d, el: els[k++], pg: null }); });
     items.forEach(function (it) { it.pg = it.el.querySelector('.pg'); it.cd = it.el.querySelector('.cd'); });
@@ -56,6 +56,7 @@ window.CFBar = (function () {
     if ('ResizeObserver' in window) new ResizeObserver(function () { fit(false); }).observe(main);
     fit(false);
 
+    var ap = el.querySelector('.ap');
     var api = {
       el: el, alerting: false, time: 0,
       setTime: function (t) {
@@ -72,8 +73,6 @@ window.CFBar = (function () {
           if (last) it.cd.textContent = '-' + pad(Math.floor(left / 60)) + ':' + pad(Math.floor(left % 60));
           if (inside) cur = i;
         });
-        hh.textContent = pad(Math.floor(t / 60)); mm.textContent = pad(Math.floor(t % 60));
-        col.classList.toggle('off', Math.floor(t * 60) % 2 === 1);
         return cur;
       },
       currentLesson: function (t) {
@@ -84,7 +83,8 @@ window.CFBar = (function () {
         if (api.alerting) return;
         api.alerting = true;
         mask.textContent = maskText; at.textContent = text; sub.textContent = subText || '';
-        el.classList.remove('fx'); el.classList.add('alerting'); if (fx) el.classList.add('fx');
+        ap.style.setProperty('--ms', (ms || 3200) + 'ms');
+        el.classList.remove('fx', 'alerting'); void el.offsetWidth; el.classList.add('alerting'); if (fx) el.classList.add('fx');
         fit(true);
         if (api.onalert) api.onalert(true, !!fx);
         clearTimeout(timer);
