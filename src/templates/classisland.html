@@ -53,7 +53,21 @@
         </ul>
       </div>
     </div>
-    <p style="margin-top:20px;color:var(--ink-3);font-size:14.5px">“新增”一栏整理自 ClassFabric 的发行说明，其中部分内容与上游同步；每个版本的具体改动见<a class="tlink" style="display:inline" href="/changelog/">更新日志</a>。</p>
+    <p style="margin-top:20px;color:var(--ink-3);font-size:14.5px">“新增”一栏只列 ClassFabric 自己的提交（按发行说明里的提交链接核对）；同步自上游的内容在下面单独列出。每个版本的具体改动见<a class="tlink" style="display:inline" href="/changelog/">更新日志</a>。</p>
+  </div>
+</section>
+
+<section class="sec-tight">
+  <div class="wrap two">
+    <div class="reveal"><span class="eyebrow">同步自上游</span><h2 class="h2" style="font-size:clamp(28px,3.4vw,40px)">这些不是<br>我们写的。</h2></div>
+    <div class="reveal" style="--i:1">
+      <p class="lead" style="margin-top:0">ClassFabric 会不时把上游的改动同步进来。同步来的内容原作者是上游的开发者，我们不把它算作自己的功劳，在更新日志里也单独归类。</p>
+      <ul class="flist" style="grid-template-columns:1fr;margin-top:20px">
+        <li><b>2.1.1.1 <span class="chip up">上游提交</span></b><span>日程查询 API、日程课表编辑器、图标表达式、图标选择器、提醒动作自定义图标（作者 @HelloWRC，发行说明附有原提交链接）。</span></li>
+        <li><b>2.1.1.3 <span class="chip up">上游同步</span></b><span>新版主界面（导航框架、竖直课程控件、日程课表），实验性，仅在调试菜单中提供。</span></li>
+      </ul>
+      <p style="margin-top:16px;color:var(--ink-3);font-size:14.5px">归属依据是 ClassFabric 的 GitHub 发行说明；若发现遗漏或写错，欢迎到 <a class="tlink" style="display:inline" href="{{ site.repo }}/issues" rel="noopener">Issues</a> 指出。</p>
+    </div>
   </div>
 </section>
 
@@ -84,6 +98,7 @@
       <details><summary>ClassIsland 的插件能用吗？{{ ico('chevron_down', 20) }}</summary><div><p>ClassFabric 保留了 ClassIsland v2 的插件兼容层，目标是让针对 v2 的插件继续可用。个别插件如果出现问题，欢迎到 Issues 反馈，并附上插件加载诊断信息。</p></div></details>
       <details><summary>可以加入 ClassFabric 的群聊吗？{{ ico('chevron_down', 20) }}</summary><div><p>暂时没有。ClassIsland 的 QQ 频道与群聊属于上游，并不是 ClassFabric 的。ClassFabric 目前通过 GitHub 的 Issues 与 Discussions 交流。</p></div></details>
       <details><summary>支持 Linux、macOS 或 Android 吗？{{ ico('chevron_down', 20) }}</summary><div><p>暂不支持。仓库里保留着相关代码，但我们没有测试环境，也没有精力维护，所以不提供安装包，也不保证可用。如果你愿意帮忙测试或维护，请在<a href="/community/">社区</a>页看看怎么参与。</p></div></details>
+      <details><summary>更新日志里，哪些是 ClassFabric 自己做的？{{ ico('chevron_down', 20) }}</summary><div><p>更新日志按提交归属分组：「ClassFabric 新增与改进」是我们自己的提交，「同步自上游」是从 ClassIsland 同步来的，带「非 ClassFabric 原创」标记。</p></div></details>
       <details><summary>它是开源的吗？{{ ico('chevron_down', 20) }}</summary><div><p>是的，以 GPL-3.0 协议开源，源码在 <a href="{{ site.repo }}" rel="noopener">GitHub</a>。ClassIsland 受 DuguSand/class_form 启发而开发，ClassFabric 同样感谢它们。</p></div></details>
     </div>
   </div>

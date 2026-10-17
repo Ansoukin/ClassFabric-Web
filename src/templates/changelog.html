@@ -4,7 +4,7 @@
   <div class="wrap">
     <div class="crumb"><a href="/">首页</a><span>/</span><span>更新日志</span></div>
     <h1>更新日志</h1>
-    <p class="lead">整理自 GitHub 上的发行说明。完整说明与全部文件见 <a class="tlink" style="display:inline" href="{{ site.repo }}/releases" rel="noopener">GitHub Releases</a>。</p>
+    <p class="lead">整理自 GitHub 上的发行说明。凡是同步自上游 ClassIsland 的改动，都单独归在「同步自上游」下，不算作 ClassFabric 自己的改动。完整说明与全部文件见 <a class="tlink" style="display:inline" href="{{ site.repo }}/releases" rel="noopener">GitHub Releases</a>。</p>
   </div>
 </section>
 <section class="wrap" style="padding-bottom:40px">
@@ -19,7 +19,7 @@
       {% if r.code %}<div class="code">{{ r.code }}</div>{% endif %}
       {% if r.note %}<p style="margin-top:0">{{ r.note }}</p>{% endif %}
       {% for g in r.groups %}
-      <h3>{{ g.title }}</h3>
+      <h3>{{ g.title }}{% if g.up %}<span class="chip up">非 ClassFabric 原创</span>{% endif %}</h3>
       <ul>{% for i in g.lines %}<li>{{ i }}</li>{% endfor %}</ul>
       {% endfor %}
       <p style="margin-top:24px"><a href="{{ site.repo }}/releases/tag/{{ r.tag }}" rel="noopener">在 GitHub 查看发行说明与文件 →</a></p>

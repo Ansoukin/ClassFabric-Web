@@ -28,6 +28,7 @@
 <script>(function(){var d=document.documentElement;d.classList.add('js');var t;try{t=localStorage.getItem('cf-theme')}catch(e){}if(t!=='dark'&&t!=='light')t=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';d.setAttribute('data-theme',t);if(t==='dark'){var m=document.querySelector('meta[name=theme-color]');if(m)m.content='#13120e'}})()</script>
 <script type="application/ld+json">{{ jsonld|safe }}</script>
 {% block head %}{% endblock %}
+<link rel="stylesheet" href="{{ asset('css/fabric.css') }}">
 <script type="speculationrules">{"prefetch":[{"where":{"href_matches":"/*"},"eagerness":"moderate"}]}</script>
 </head>
 <body>

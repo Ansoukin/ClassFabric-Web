@@ -1,0 +1,75 @@
+/* ============================================================
+   V7 设计层：Claude 的暖纸与衬线 × Cursor 的细线与产品感，
+   用“织物（Fabric）”做线索——经纬网格、缝线虚线、绗缝式的边——但只点到为止。
+   加载在 site.css 之后，只覆盖观感，不动结构。
+   ============================================================ */
+:root {
+  --paper: #f5f2ea; --paper-2: #ebe7dc; --card: #fbfaf5;
+  --ink: #1a1915; --ink-2: #4a473f; --ink-3: #746e62;
+  --line: rgba(26, 25, 21, .1); --line-2: rgba(26, 25, 21, .18);
+  --thread: #c0603a;                       /* 缝线：暖赭，只用在细节上 */
+  --r-s: 6px; --r-m: 10px; --r-l: 14px; --r-xl: 20px;
+  --shadow-1: 0 1px 0 rgba(26, 25, 21, .04);
+  --shadow-2: 0 1px 2px rgba(26, 25, 21, .05), 0 10px 28px -8px rgba(26, 25, 21, .14);
+  --weave: repeating-linear-gradient(0deg, rgba(26, 25, 21, .05) 0 1px, transparent 1px 7px), repeating-linear-gradient(90deg, rgba(26, 25, 21, .05) 0 1px, transparent 1px 7px);
+  --stitch: repeating-linear-gradient(90deg, var(--thread) 0 6px, transparent 6px 11px);
+}
+:root[data-theme="dark"] {
+  --paper: #12110d; --paper-2: #191813; --card: #1b1a15;
+  --thread: #e0885f;
+  --weave: repeating-linear-gradient(0deg, rgba(242, 239, 231, .045) 0 1px, transparent 1px 7px), repeating-linear-gradient(90deg, rgba(242, 239, 231, .045) 0 1px, transparent 1px 7px);
+}
+
+/* ---- 字与标题 ---- */
+h1, h2, .h3, .serif { letter-spacing: -.02em; }
+.h2 { line-height: 1.14; }
+.eyebrow { font: 600 12.5px/1 var(--mono); letter-spacing: .1em; color: var(--ink-2); gap: 10px; }
+.eyebrow::before { width: 22px; height: 0; background: none; border-top: 2px dashed var(--thread); border-radius: 0; }
+.display { letter-spacing: -.03em; }
+.display em, :root[data-theme="dark"] .display em { position: relative; white-space: nowrap; background: none; -webkit-background-clip: initial; background-clip: initial; color: inherit; padding: 0; }
+.display em::after { content: ""; position: absolute; left: 0; right: 0; bottom: .02em; height: .06em; background: var(--stitch); background-size: .42em 100%; }
+
+/* ---- 顶栏、按钮、徽标 ---- */
+.hdr { border-bottom-color: var(--line); }
+.nav a { border-radius: var(--r-s); }
+.btn { border-radius: var(--r-m); height: 46px; }
+.btn-primary { box-shadow: none; border: 1px solid var(--btn-bg); }
+.btn-primary:hover { box-shadow: 0 8px 20px -8px rgba(26, 25, 21, .5); }
+.btn-ghost { border-color: var(--line-2); }
+.btn-ghost:hover { background: transparent; border-color: var(--ink); }
+.btn-sm { border-radius: var(--r-s); }
+.badge { border-radius: var(--r-s); box-shadow: none; font-family: var(--mono); font-size: 12.5px; padding: 5px 12px 5px 6px; }
+.badge .tag { border-radius: 4px; background: var(--ink); color: var(--paper); font-weight: 600; padding: 2px 8px; }
+.chip { border-radius: 5px; font-family: var(--mono); font-size: 11.5px; padding: 2px 8px; letter-spacing: .02em; }
+.chip.up { color: var(--thread); border: 1px dashed color-mix(in srgb, var(--thread) 65%, transparent); background: color-mix(in srgb, var(--thread) 8%, transparent); }
+.prose h3 .chip.up, .rel h3 .chip.up { margin-left: 10px; vertical-align: 3px; }
+
+/* ---- 经纬：首屏与页头的织纹 ---- */
+.hero::before { content: ""; position: absolute; inset: 0 0 auto; height: 640px; background: var(--weave); -webkit-mask: linear-gradient(#000 15%, transparent 92%); mask: linear-gradient(#000 15%, transparent 92%); pointer-events: none; z-index: -1; }
+.page-head { position: relative; }
+.page-head::after { content: ""; position: absolute; left: 50%; bottom: 0; width: min(100% - var(--gut) * 2, var(--wrap)); height: 12px; transform: translateX(-50%); background: var(--weave); border-top: 1px dashed color-mix(in srgb, var(--thread) 70%, transparent); -webkit-mask: linear-gradient(90deg, #000 40%, transparent); mask: linear-gradient(90deg, #000 40%, transparent); }
+.scene-bg::after { content: ""; position: absolute; inset: 0; background: repeating-linear-gradient(0deg, rgba(255, 255, 255, .04) 0 1px, transparent 1px 6px), repeating-linear-gradient(90deg, rgba(255, 255, 255, .04) 0 1px, transparent 1px 6px); -webkit-mask: radial-gradient(90% 90% at 70% 20%, #000, transparent); mask: radial-gradient(90% 90% at 70% 20%, #000, transparent); }
+.stage, .shotframe { border-radius: var(--r-xl); }
+.stage { box-shadow: 0 24px 60px -24px rgba(10, 30, 90, .5), 0 0 0 1px rgba(26, 25, 21, .25); }
+
+/* ---- 缝线：分隔线、卡片、提示 ---- */
+.timeline { border-top: 1px solid var(--ink); }
+.timeline .row, .flist li, .ftr .fine { border-bottom-style: dashed; border-color: var(--line-2); }
+.fgroup + .fgroup { border-top-style: dashed; border-top-color: var(--line-2); }
+.ftr { border-top: 1px dashed var(--line-2); }
+.card { border-radius: var(--r-l); box-shadow: var(--shadow-1); }
+a.card:hover, .card.hov:hover { transform: translateY(-2px); border-color: var(--ink-3); box-shadow: var(--shadow-2); }
+.card .ci { border-radius: var(--r-m); background: transparent; border: 1px dashed var(--line-2); color: var(--ink); transition: border-color .25s, color .25s; }
+a.card:hover .ci, .card.hov:hover .ci { border-color: var(--thread); color: var(--thread); }
+.note { border-radius: var(--r-m); background: transparent; border: 1px dashed var(--line-2); }
+.plat > div { border-radius: var(--r-m); }
+.tabs { border-radius: var(--r-m); }
+.tabs button { border-radius: var(--r-s); }
+.tabs button[aria-selected="true"] { box-shadow: 0 0 0 1px var(--line-2); }
+.cta-box::before { content: ""; position: absolute; inset: 0; z-index: -1; background: repeating-linear-gradient(0deg, rgba(255, 255, 255, .04) 0 1px, transparent 1px 7px), repeating-linear-gradient(90deg, rgba(255, 255, 255, .04) 0 1px, transparent 1px 7px); }
+.cta-box::after { content: ""; position: absolute; inset: 14px; border: 1.5px dashed rgba(255, 255, 255, .24); border-radius: calc(var(--r-xl) - 8px); pointer-events: none; }
+.hero-steps button::before { height: 0; background: none; border-top: 2px dashed var(--line-2); border-radius: 0; }
+.hero-steps button.done::before { border-top: 2px solid var(--ink-3); }
+.hero-steps button.on::before { border-top: 2px solid var(--thread); }
+.hero-steps button.on i { color: var(--thread); }
+@media (max-width: 720px) { .hero-steps button::before { display: none; } }
