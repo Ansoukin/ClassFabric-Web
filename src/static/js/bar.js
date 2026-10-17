@@ -68,7 +68,8 @@ window.CFBar = (function () {
     });
     items.forEach(function (it) { it.pg = it.el.querySelector('.pg'); it.cd = it.el.querySelector('.cd'); });
 
-    function fit() { shell.style.width = main.offsetWidth + 'px'; }
+    function em() { return parseFloat(getComputedStyle(el).fontSize) || 16; }
+    function fit() { if (!api || !api.alerting) shell.style.width = main.offsetWidth + 'px'; }
     if ('ResizeObserver' in window) new ResizeObserver(fit).observe(main);
     fit();
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit);
@@ -84,6 +85,14 @@ window.CFBar = (function () {
       } else if (a.type === 'split') {
         el.querySelector('.a-split .l').innerHTML = a.left; el.querySelector('.a-split .r').innerHTML = a.right;
       } else el.querySelector('.a-text .t').textContent = a.text;
+      // 文字 / 分栏提醒比课表条宽时，条随内容撑开（卡片提醒始终与条同宽）
+      var want = main.offsetWidth;
+      if (a.type === 'text') want = Math.max(want, el.querySelector('.a-text .t').offsetWidth + em() * 3);
+      else if (a.type === 'split') {
+        var side = function (n) { n.style.flex = 'none'; var w = n.offsetWidth; n.style.flex = ''; return w; };
+        want = Math.max(want, Math.max(side(el.querySelector('.a-split .l')), side(el.querySelector('.a-split .r'))) * 2 + em() * 2);
+      }
+      shell.style.width = want + 'px';
       ap.style.setProperty('--ms', a.ms + 'ms');
       ap.style.animation = 'none'; void ap.offsetWidth; ap.style.animation = '';
     }
@@ -126,7 +135,9 @@ window.CFBar = (function () {
         clear(); queue = [];
         if (!api.alerting) return;
         api.alerting = false;
-        el.classList.remove('alerting', 'fx');
+        el.classList.remove('alerting', 'fx'); el.classList.add('settle');
+        setTimeout(function () { el.classList.remove('settle'); }, 520);
+        shell.style.width = main.offsetWidth + 'px';
         if (api.onalert) api.onalert(false, false);
       }
     };
@@ -167,5 +178,5 @@ window.CFBar = (function () {
     };
   }
 
-  return { mount: mount, play: play, DAY: DAY, CLASSES: CLASSES, fmt: fmt, next: next, reduce: reduce };
+  return { mount: mount, play: play, ICON: ICON, DAY: DAY, CLASSES: CLASSES, fmt: fmt, next: next, reduce: reduce };
 })();

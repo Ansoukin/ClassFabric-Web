@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% block head %}<link rel="stylesheet" href="{{ asset('css/hero.css') }}">{% endblock %}
 {% block main %}
 
 <!-- ===== 首屏 ===== -->
@@ -14,16 +15,7 @@
     <p class="hero-meta"><span>{{ ico('desktop', 20) }}Windows 10 及以上 · x64 / x86 / ARM64</span><span>{{ ico('code', 20) }}免费开源 · GPL-3.0</span></p>
   </div>
   <div class="wrap-w">
-    <div class="stage hero-stage" role="img" aria-label="ClassFabric 在教室大屏上的效果：顶部是课表条，下方是档案编辑与科目设置窗口">
-      <div class="scene">
-        <div class="scene-bg"></div><div class="petal p1"></div><div class="petal p2"></div><div class="petal p3"></div><div class="grain"></div>
-        <div class="layer" data-depth="9"><div class="win w1"><img src="{{ asset('img/shots/schedule.webp') }}" width="1102" height="601" alt="" fetchpriority="high"></div></div>
-        <div class="layer" data-depth="20"><div class="win w2"><img src="{{ asset('img/shots/subjects.webp') }}" width="1102" height="601" alt="" fetchpriority="high"></div></div>
-        <div class="layer" data-depth="5"><div class="cfbar" data-bar></div></div>
-        <div class="taskbar" aria-hidden="true"><i class="start"><b></b><b></b><b></b><b></b></i><i></i><i></i><i class="app"><svg viewBox="0 0 192 192"><use href="#logo"/></svg></i><i></i><i></i><div class="clock">9:12<br>2026/10/15</div></div>
-      </div>
-    </div>
-    <p class="stage-note">课表条为示意动画，窗口为真实截图；实际外观取决于主题与组件设置。</p>
+    {% include "_hero.html" %}
   </div>
 </section>
 
