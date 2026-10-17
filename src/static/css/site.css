@@ -177,17 +177,19 @@ section { position: relative; }
 .cfbar.alerting .shell, .cfbar.settle .shell { transition: width .42s var(--ease), background-color .3s, border-color .3s, box-shadow .5s; }
 .cfbar .main { position: absolute; left: 0; top: 0; height: 100%; width: max-content; display: flex; align-items: center; white-space: nowrap; transition: opacity .3s, filter .3s; }
 .cfbar .les { display: flex; align-items: center; height: 100%; }
-.cfbar .it { position: relative; display: flex; align-items: center; justify-content: center; height: 100%; min-width: 2.5em; transition: opacity .4s; }
-.cfbar .it.brk { min-width: 0; }
+.cfbar .it { position: relative; display: flex; align-items: center; justify-content: center; height: 100%; width: 2.5em; min-width: 2.5em; flex: none; transition: opacity .4s, width .55s var(--ease); }
+.cfbar .it.brk { width: 0; min-width: 0; }
+.cfbar .it.cur { width: calc(var(--w, 12em) + 1.5em); }
 .cfbar .it .ch { display: block; max-width: 1.6em; overflow: hidden; font-size: 1.0625em; transition: max-width .5s var(--ease), opacity .25s; }
-.cfbar .it .ex { display: inline-flex; align-items: center; max-width: 0; opacity: 0; overflow: hidden; margin: 0; transition: max-width .55s var(--ease), opacity .3s, margin .5s var(--ease); }
+.cfbar .it .ex { display: block; width: 0; overflow: hidden; opacity: 0; margin: 0; transition: width .55s var(--ease), opacity .3s, margin .5s var(--ease); }
+.cfbar .it .exi { display: flex; align-items: center; width: max-content; white-space: nowrap; }
 .cfbar .it .ic { display: inline-grid; place-items: center; width: 1.125em; height: 1.125em; margin-right: .4em; font-size: 1.0625em; font-weight: 600; line-height: 1; flex: none; }
 .cfbar .it .ic svg { width: 100%; height: 100%; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
 .cfbar .it .nm { font-size: 1.0625em; font-weight: 700; }
 .cfbar .it .tm { font-size: .8125em; margin-left: .5em; color: rgba(255, 255, 255, .86); font-variant-numeric: tabular-nums; }
 .cfbar .it .cd { display: none; margin-left: .6em; padding: .22em .55em; border-radius: 1em; border: 1px solid rgba(118, 185, 237, .9); background: rgba(118, 185, 237, .2); font-size: .8125em; font-variant-numeric: tabular-nums; }
 .cfbar .it.cur .ch { max-width: 0; opacity: 0; }
-.cfbar .it.cur .ex { max-width: 18em; opacity: 1; margin: 0 .75em; }
+.cfbar .it.cur .ex { width: var(--w, 12em); opacity: 1; margin: 0 .75em; }
 .cfbar .it.cur.last .cd { display: inline-block; }
 .cfbar .it.cur.last .tm { display: none; }
 .cfbar .it.past { opacity: .5; }

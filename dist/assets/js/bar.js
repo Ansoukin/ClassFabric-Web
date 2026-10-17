@@ -45,11 +45,11 @@ window.CFBar = (function () {
     var h = '<div class="shell"><div class="main"><div class="les">', items = [];
     DAY.forEach(function (d, i) {
       var ic = d.i ? '<span class="ic">' + ICON[d.i] + '</span>' : '';
-      h += '<span class="it"><span class="ch">' + d.c + '</span><span class="ex">' + ic + '<span class="nm">' + d.n +
-        '</span><span class="tm">' + fmt(d.s) + '-' + fmt(d.e) + '</span><span class="cd"></span></span><span class="pgw"><i class="pg"></i></span></span>';
+      h += '<span class="it"><span class="ch">' + d.c + '</span><span class="ex"><span class="exi">' + ic + '<span class="nm">' + d.n +
+        '</span><span class="tm">' + fmt(d.s) + '-' + fmt(d.e) + '</span><span class="cd"></span></span></span><span class="pgw"><i class="pg"></i></span></span>';
       var n = DAY[i + 1];
-      if (n) h += '<span class="it brk"><span class="ex"><span class="ic">' + ICON.clock + '</span><span class="nm">课间休息</span><span class="tm">' +
-        fmt(d.e) + '-' + fmt(n.s) + '</span><span class="cd"></span></span><span class="pgw"><i class="pg"></i></span></span>';
+      if (n) h += '<span class="it brk"><span class="ex"><span class="exi"><span class="ic">' + ICON.clock + '</span><span class="nm">课间休息</span><span class="tm">' +
+        fmt(d.e) + '-' + fmt(n.s) + '</span><span class="cd"></span></span></span><span class="pgw"><i class="pg"></i></span></span>';
     });
     h += '</div></div><div class="alert">' +
       '<div class="a-card"><span class="inf">' + ICON.info + '</span><b class="at"></b><span class="ci"></span></div>' +
@@ -66,13 +66,18 @@ window.CFBar = (function () {
       items.push({ d: d, el: els[k++] });
       if (DAY[i + 1]) items.push({ d: { s: d.e, e: DAY[i + 1].s }, el: els[k++] });
     });
-    items.forEach(function (it) { it.pg = it.el.querySelector('.pg'); it.cd = it.el.querySelector('.cd'); });
+    items.forEach(function (it) { it.pg = it.el.querySelector('.pg'); it.cd = it.el.querySelector('.cd'); it.ex = it.el.querySelector('.ex'); it.exi = it.el.querySelector('.exi'); });
+    /* 当前项的展开宽度由脚本量出来，不依赖浏览器对 max-content 的推算（嵌套 flex 里它会算成 0，文字就被裁掉了） */
+    function measure(it) { it.el.style.setProperty('--w', Math.ceil(it.exi.getBoundingClientRect().width / scale()) + 'px'); }
+    function scale() { var r = el.getBoundingClientRect(); return r.width && el.offsetWidth ? r.width / el.offsetWidth : 1; }
+    function measureAll() { items.forEach(measure); fit(); }
 
     function em() { return parseFloat(getComputedStyle(el).fontSize) || 16; }
     function fit() { if (!api || !api.alerting) shell.style.width = main.offsetWidth + 'px'; }
     if ('ResizeObserver' in window) new ResizeObserver(fit).observe(main);
     fit();
-    if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit);
+    measureAll();
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(measureAll);
 
     function clear() { timers.forEach(clearTimeout); timers = []; }
     function render(a) {
@@ -107,7 +112,7 @@ window.CFBar = (function () {
           it.el.classList.toggle('past', t >= it.d.e);
           it.pg.style.width = inside ? (((t - it.d.s) / (it.d.e - it.d.s)) * 100).toFixed(2) + '%' : '0';
           var left = inside ? (it.d.e - t) * 60 : 0, last = inside && left <= 60;
-          it.el.classList.toggle('last', last);
+          if (last !== it.el.classList.contains('last')) { it.el.classList.toggle('last', last); if (last) it.cd.textContent = '-60s'; measure(it); }
           if (last) it.cd.textContent = '-' + Math.max(0, Math.floor(left)) + 's';
         });
       },
