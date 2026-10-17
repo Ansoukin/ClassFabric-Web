@@ -23,10 +23,10 @@
 <section class="sec">
   <div class="wrap">
     <div class="reveal"><span class="eyebrow">关于 ClassFabric</span></div>
-    <p class="statement reveal" style="margin-top:20px">不重新发明课表，<span class="dim">只把它做得更顺手：在 ClassIsland 的肩膀上，加一点社区自己的东西。</span></p>
+    <p class="statement reveal" style="margin-top:20px">基于 ClassIsland，<span class="dim">补上社区想要的功能。</span></p>
     <div class="two" style="margin-top:clamp(40px,6vw,72px)">
       <div class="reveal">
-        <p class="lead">上游把地基打得很扎实，我们专注在 Windows 上继续往前走——同时尽量与上游保持同步、保持插件兼容。每个版本改了什么、哪些是上游同步来的，都写在下面，也写在<a class="tlink" href="/changelog/" style="display:inline">更新日志</a>里。</p>
+        <p class="lead">ClassFabric 专注 Windows 平台，尽量与上游保持同步，并保持插件兼容。每个版本改了什么、哪些是上游同步来的，都写在下面，也写在<a class="tlink" href="/changelog/" style="display:inline">更新日志</a>里。</p>
       </div>
       <div class="timeline reveal" style="--i:1">
         {% for r in releases_brief %}
@@ -41,7 +41,7 @@
 <section class="sec-tight" id="live">
   <div class="wrap-w show">
     <div class="show-head wrap" style="padding:0;width:100%">
-      <div class="reveal"><span class="eyebrow">课表显示与提醒</span><h2 class="h2">上课、下课，<br>它自己就知道。</h2></div>
+      <div class="reveal"><span class="eyebrow">课表显示与提醒</span><h2 class="h2">自动提醒<br>上课与下课。</h2></div>
       <p class="reveal" style="--i:1">当前课程会展开、进度条随时间走完，到点弹出提醒。拖动下面的时间轴，或者点一下提醒预览，亲手试试。</p>
     </div>
     <div class="stage demo-stage reveal" data-demo>
@@ -80,7 +80,7 @@
       </div>
       <div class="reveal" style="--i:1">
         <span class="eyebrow">课表编辑</span>
-        <h2 class="h2" style="font-size:clamp(30px,3.8vw,44px)">点哪改哪，<br>改完自动往下走。</h2>
+        <h2 class="h2" style="font-size:clamp(30px,3.8vw,44px)">点一下就能填，<br>选完自动换下一节。</h2>
         <div class="steps" role="tablist" aria-label="课表编辑步骤" style="margin-top:28px">
           <button type="button" role="tab" aria-selected="true"><b>点一个空格</b><span>在课表里选中要填的那一节。</span><i class="bar"></i></button>
           <button type="button" role="tab" aria-selected="false"><b>选一个科目</b><span>右侧是你的科目列表，点一下就填进去。</span><i class="bar"></i></button>
@@ -95,7 +95,7 @@
 <!-- ===== 演示 C：标签页画廊 ===== -->
 <section class="sec-tight" style="background:var(--paper-2)">
   <div class="wrap" style="padding-block:clamp(56px,8vw,104px)" data-tabs>
-    <div class="reveal sec-head"><span class="eyebrow">自定义</span><h2 class="h2">按你的教室来配。</h2></div>
+    <div class="reveal sec-head"><span class="eyebrow">自定义</span><h2 class="h2">按教室的需要配置。</h2></div>
     <div class="tabs reveal" role="tablist" aria-label="自定义功能" style="margin-top:32px;--i:1">
       <button type="button" role="tab">组件</button><button type="button" role="tab">插件</button><button type="button" role="tab">自动化</button><button type="button" role="tab">科目</button><button type="button" role="tab">时间表</button>
     </div>
@@ -124,7 +124,7 @@
 <section class="sec">
   <div class="wrap">
     <div class="show-head">
-      <div class="reveal"><span class="eyebrow">ClassFabric 带来的</span><h2 class="h2">我们自己<br>加了这些。</h2></div>
+      <div class="reveal"><span class="eyebrow">ClassFabric 带来的</span><h2 class="h2">ClassFabric<br>新增的功能。</h2></div>
       <p class="reveal" style="--i:1">这些是 ClassFabric 自己新增的改动，按发行说明里的提交归属整理。同步自上游 ClassIsland 的内容不算在内，单独写在<a class="tlink" href="/classisland/" style="display:inline">与 ClassIsland 的关系</a>里。</p>
     </div>
     <div class="grid3" style="margin-top:clamp(36px,5vw,56px)">
@@ -146,7 +146,7 @@
     <div class="two">
       <div class="reveal">
         <span class="eyebrow">平台</span>
-        <h2 class="h2">先把 Windows<br>做好。</h2>
+        <h2 class="h2">目前只支持<br>Windows。</h2>
       </div>
       <div class="reveal" style="--i:1">
         <div class="plat">
@@ -164,7 +164,7 @@
 <!-- ===== 社区 ===== -->
 <section class="sec-tight">
   <div class="wrap">
-    <div class="sec-head reveal"><span class="eyebrow">开源</span><h2 class="h2">完全开源，也欢迎你来改。</h2><p class="lead">ClassFabric 目前没有自己的群聊，交流都在 GitHub 上进行——问题和答案都能被搜到，也不会淹没在聊天记录里。</p></div>
+    <div class="sec-head reveal"><span class="eyebrow">开源</span><h2 class="h2">开源，欢迎参与。</h2><p class="lead">ClassFabric 目前没有自己的群聊，交流都在 GitHub 上进行——问题和答案都能被搜到，也不会淹没在聊天记录里。</p></div>
     <div class="grid3" style="margin-top:clamp(32px,5vw,48px)">
       <a class="card reveal" href="{{ site.repo }}/issues/new/choose" rel="noopener"><div class="ci">{{ ico('bug', 24) }}</div><h3>反馈问题</h3><p>遇到 Bug 或想要新功能，提交 Issue，按模板填写能更快被处理。</p></a>
       <a class="card reveal" style="--i:1" href="{{ site.repo }}/discussions" rel="noopener"><div class="ci">{{ ico('chat', 24) }}</div><h3>讨论与提问</h3><p>使用上的疑问、想法与经验，欢迎在 Discussions 里交流。</p></a>
@@ -178,7 +178,7 @@
   <div class="wrap-w">
     <div class="cta-box reveal">
       <div class="grain"></div>
-      <h2>把课表，放上大屏。</h2>
+      <h2>把课表放上大屏。</h2>
       <p>下载安装包，几分钟就能在教室电脑上跑起来。</p>
       <div class="cta-row">
         <a class="btn btn-light" href="/download/">{{ ico('arrow_download', 24) }}下载 Windows 版</a>
