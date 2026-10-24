@@ -37,6 +37,11 @@ const p = computed(() => c.value.aboutPage)
             <span class="badge">{{ it.s }}</span>
             <h3>{{ it.t }}</h3>
             <p>{{ it.d }}</p>
+            <p v-if="it.u" style="margin-top: 14px">
+              <a class="link" style="font-size: 15px" :href="it.u" target="_blank" rel="noopener">
+                Crowdin <AppIcon name="external" :size="14" />
+              </a>
+            </p>
           </article>
         </div>
       </div>
