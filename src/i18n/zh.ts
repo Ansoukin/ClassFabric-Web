@@ -3,7 +3,7 @@ export const zh = {
   meta: {
     home: {
       title: 'ClassFabric — 班级大屏上的课表',
-      desc: 'ClassFabric 是适用于班级多媒体屏幕的课表信息显示工具:上课提醒、课表编辑、组件、插件与自动化。基于 ClassIsland 的社区增强版,开源。',
+      desc: 'ClassFabric 是适用于班级多媒体屏幕的课表信息显示工具:上课提醒、课表编辑、组件、插件与自动化。ClassIsland 的个人修改版,开源。',
     },
     features: {
       title: '功能 — ClassFabric',
@@ -13,9 +13,9 @@ export const zh = {
       title: '下载 — ClassFabric',
       desc: '从 GitHub Releases 下载 ClassFabric。支持 Windows 10 及更高版本,2.2 目前为开发者预览版。',
     },
-    classisland: {
-      title: '与 ClassIsland 的关系 — ClassFabric',
-      desc: 'ClassFabric 是 ClassIsland 的社区衍生项目。我们继承了什么,想改变什么,又如何对待上游。',
+    about: {
+      title: '关于 — ClassFabric',
+      desc: 'ClassFabric 是 ClassIsland 的个人修改版:它是什么、与 ClassIsland 的关系、适合谁,以及名字的由来。',
     },
     community: {
       title: '社区 — ClassFabric',
@@ -26,7 +26,7 @@ export const zh = {
   nav: {
     features: '功能',
     download: '下载',
-    classisland: '与 ClassIsland',
+    about: '关于',
     community: '社区',
     github: 'GitHub',
     menu: '菜单',
@@ -38,11 +38,11 @@ export const zh = {
 
   hero: {
     title: '每一节课，\n一眼清楚。',
-    sub: 'ClassFabric 把今天的课表、正在上的课和各种信息，安静地放在班级大屏上。该提醒时提醒，该让路时让路。',
+    sub: 'ClassFabric 把课表安静地放在班级大屏上:该提醒时提醒,该让路时让路。它是 ClassIsland 的个人修改版,紧跟上游的新特性,再加入来自个人与社区的改进。',
     primary: '下载 ClassFabric',
     secondary: '查看全部功能',
     note: '适用于 Windows 10 及更高版本 · 2.2 开发者预览版',
-    pill: '基于 ClassIsland 的社区增强版',
+    pill: 'ClassIsland 的个人修改版',
     demoLabel: '演示:从托盘打开档案编辑,依次选好每节课的科目,关闭窗口后课表立刻显示在屏幕顶部。',
   },
 
@@ -163,10 +163,23 @@ export const zh = {
     latest: '最新发布',
     viewRelease: '查看发布说明',
   },
-  relation: {
-    title: '站在上游的肩上，\n也走自己的路。',
-    body: 'ClassFabric 是 ClassIsland 的社区衍生项目。继承来的,和我们自己做的,我们分开讲清楚。',
-    cta: '了解与 ClassIsland 的关系',
+  switchBand: {
+    title: '从 ClassIsland 过来，\n不用重新来过。',
+    body: 'ClassFabric 的底层与上游保持一致。下载安装之后，你原来的课表、自动化、插件和主题都能直接沿用。',
+    cta: '更多常见问题',
+  },
+  fit: {
+    title: '适合谁',
+    yesTitle: '适合你，如果你想……',
+    yes: [
+      '在 ClassIsland 的生态里继续原来的工作，又想更早用上上游的新特性。',
+      '开箱即用：装好就能体验来自上游、社区和我们的新功能。',
+    ],
+    noTitle: '可能不适合你，如果你……',
+    no: [
+      '需要长期保持环境不变。',
+      '在对稳定性要求极高的场合使用。ClassFabric 会积极跟进上游的改动，版本变化相对频繁。',
+    ],
   },
   open: {
     title: '开源。\n欢迎一起把它做好。',
@@ -254,26 +267,59 @@ export const zh = {
     docsBody: '详细的安装与使用说明见文档(沿用上游 ClassIsland 文档,同样适用于 ClassFabric)。',
     docs: '打开文档',
   },
-  classislandPage: {
-    title: '站在上游的肩上，\n也走自己的路。',
-    lead: 'ClassFabric 是 ClassIsland 的衍生项目(fork),基于上游 develop/v2/misha-alpha 分支继续开发,并保留 ClassIsland v2 插件兼容层。',
-    inheritTitle: '继承自上游',
-    inherit: [
-      '课表显示、提醒、课表编辑、组件、插件、自动化、天气等核心能力。',
-      '项目文档、功能投票等上游资源,内容同样适用于 ClassFabric。',
-      '众多上游贡献者的工作。感谢 HelloWRC,以及每一位为 ClassIsland 付出的同学。',
+  aboutPage: {
+    title: '关于\nClassFabric',
+    lead: '写给想弄清楚它是什么、和 ClassIsland 是什么关系的你。',
+    faq: [
+      {
+        q: 'ClassFabric 是什么？',
+        a: ['ClassFabric 是基于 HelloWRC 的 ClassIsland 二次开发的个人修改版。我们积极同步上游的最新特性，同时加入来自个人和社区的改动。'],
+      },
+      {
+        q: '和 ClassIsland 是什么关系？',
+        a: [
+          'ClassFabric 不是 ClassIsland 的替代品，也不是它的竞品。它建立在 ClassIsland 之上，关系类似 PCL 与 PCLCE 等下游启动器：继承原项目，再多走一步。',
+          '上游的成果归上游。我们不会把上游的改动当作自己的功能来介绍。',
+        ],
+      },
+      {
+        q: '从 ClassIsland 切换，需要复杂的准备吗？',
+        a: ['不需要。ClassFabric 的底层代码与上游保持一致，下载安装之后，原来的课表、自动化、插件和主题都能直接沿用。'],
+      },
+      {
+        q: '为什么选择 ClassFabric？',
+        a: [
+          '如果你想在 ClassIsland 的生态里继续原来的工作，又想更早用上上游的新特性，ClassFabric 适合你。',
+          '如果你想开箱即用，装好就能体验来自上游、社区和我们开发的新功能，ClassFabric 也适合你。',
+        ],
+      },
+      {
+        q: 'ClassFabric 不适合谁？',
+        a: [
+          '需要长期保持环境不变的人，以及对稳定性要求极高的场合。ClassFabric 会积极跟进上游的改动，版本变化相对频繁，2.2 目前也仍是开发者预览版。',
+          '遇到这种情况，请同时看看上游 ClassIsland 的正式发布版本。',
+        ],
+      },
+      {
+        q: '我想贡献代码，可以吗？',
+        a: ['当然。在 GitHub 提交 Pull Request 或 Issue 就可以，欢迎任何有价值的贡献。我们也会考虑定期把有意义的贡献提交给上游，一起建设 ClassIsland 生态。'],
+      },
+      {
+        q: '“Fabric”从哪里来？',
+        a: [
+          'ClassIsland 的 Island 来自 iOS 的“灵动岛”；ClassFabric 的 Fabric 来自 Minecraft 社区知名的模组加载器 Fabric，寓意把社区与个人的功能连接起来。',
+          'ClassFabric 与 Minecraft 及 Fabric 项目没有关联。',
+        ],
+      },
     ],
-    directionTitle: 'ClassFabric 想去的方向',
-    direction: [
-      '改善使用体验,在继承的基础上,逐步形成自己的功能与设计理念。',
-      '走向国际化:不只是翻译界面,还要适应不同地区、不同类型学校的组织方式、课表模式与使用习惯。',
-    ],
-    directionNote: '这是方向,不是已经完成的事。已经实现的功能,以功能页和发布说明为准。',
-    honestyTitle: '我们的原则',
-    honesty: [
-      { t: '署名清楚', d: '上游的成果归上游。我们不会把上游的改动当成自己的功能来介绍。' },
-      { t: '不贬低上游', d: 'ClassFabric 与 ClassIsland 各有侧重,谈不上高下。' },
-      { t: '如实说明状态', d: '2.2 仍是开发者预览。如果你需要稳定的正式版,请同时看看上游 ClassIsland 的发布版本。' },
+    planTitle: '计划中',
+    planNote: '以下是我们规划中的方向，尚未完成，并不代表当前版本已经具备这些功能。已有的功能以功能页和发布说明为准。',
+    plan: [
+      { t: '多语言与国际化', d: '不只是翻译界面，还要适应不同地区、不同类型学校的组织方式、课表模式与使用习惯。' },
+      { t: '云功能', d: '云端相关的能力，具体形态仍在规划。' },
+      { t: '更好的自动化', d: '让自动化更强大，其中一部分来自社区知名插件 SystemTools 的能力。' },
+      { t: '更好的性能表现', d: '让它运行得更流畅。' },
+      { t: '更多功能', d: '来自个人与社区的更多改动。' },
     ],
     resourcesTitle: '上游资源',
     resources: [
@@ -281,8 +327,8 @@ export const zh = {
       { t: 'ClassIsland 官网', u: 'https://classisland.tech/' },
       { t: '项目文档', u: 'https://docs.classisland.tech' },
     ],
-    resourcesNote: 'ClassIsland 官网的下载入口、QQ 频道与群组属于上游,提供的是 ClassIsland,不是 ClassFabric。',
-    thanks: 'ClassIsland 受 DuguSand/class_form 启发而开发。',
+    resourcesNote: 'ClassIsland 官网的下载入口、QQ 频道与群组属于上游，提供的是 ClassIsland，不是 ClassFabric。',
+    thanks: '感谢 HelloWRC 以及每一位为 ClassIsland 付出的同学。ClassIsland 受 DuguSand/class_form 启发而开发。',
   },
   communityPage: {
     title: '一起把它\n做得更好。',

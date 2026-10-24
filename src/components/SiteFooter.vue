@@ -21,7 +21,7 @@ const year = new Date().getFullYear()
           <ul>
             <li><RouterLink to="/features">{{ c.nav.features }}</RouterLink></li>
             <li><RouterLink to="/download">{{ c.nav.download }}</RouterLink></li>
-            <li><RouterLink to="/classisland">{{ c.nav.classisland }}</RouterLink></li>
+            <li><RouterLink to="/about">{{ c.nav.about }}</RouterLink></li>
           </ul>
         </div>
         <div>

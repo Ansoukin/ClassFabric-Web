@@ -10,7 +10,7 @@ const { mode, setMode } = useColorMode()
 const links = computed(() => [
   { to: '/features', t: c.value.nav.features },
   { to: '/download', t: c.value.nav.download },
-  { to: '/classisland', t: c.value.nav.classisland },
+  { to: '/about', t: c.value.nav.about },
   { to: '/community', t: c.value.nav.community },
 ])
 

@@ -18,9 +18,9 @@ const routes = {
     title: '下载 — ClassFabric',
     desc: '从 GitHub Releases 下载 ClassFabric。支持 Windows 10 及更高版本,2.2 目前为开发者预览版。',
   },
-  classisland: {
-    title: '与 ClassIsland 的关系 — ClassFabric',
-    desc: 'ClassFabric 是 ClassIsland 的社区衍生项目。我们继承了什么,想改变什么,又如何对待上游。',
+  about: {
+    title: '关于 — ClassFabric',
+    desc: 'ClassFabric 是 ClassIsland 的个人修改版:它是什么、与 ClassIsland 的关系、适合谁,以及名字的由来。',
   },
   community: {
     title: '社区 — ClassFabric',

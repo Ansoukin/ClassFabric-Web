@@ -5,7 +5,7 @@ export const en: Content = {
   meta: {
     home: {
       title: 'ClassFabric — The timetable for your classroom screen',
-      desc: 'ClassFabric is a schedule display tool for classroom multimedia screens: lesson reminders, a schedule editor, components, plugins and automation. A community-enhanced edition of ClassIsland. Open source.',
+      desc: 'ClassFabric is a schedule display tool for classroom multimedia screens: lesson reminders, a schedule editor, components, plugins and automation. A personal edition of ClassIsland. Open source.',
     },
     features: {
       title: 'Features — ClassFabric',
@@ -15,9 +15,9 @@ export const en: Content = {
       title: 'Download — ClassFabric',
       desc: 'Download ClassFabric from GitHub Releases. Windows 10 or later; 2.2 is currently a developer preview.',
     },
-    classisland: {
-      title: 'ClassFabric and ClassIsland — ClassFabric',
-      desc: 'ClassFabric is a community fork of ClassIsland. What we inherited, where we want to go, and how we treat upstream.',
+    about: {
+      title: 'About — ClassFabric',
+      desc: 'ClassFabric is a personal edition of ClassIsland: what it is, how it relates to ClassIsland, who it is for, and where the name comes from.',
     },
     community: {
       title: 'Community — ClassFabric',
@@ -28,7 +28,7 @@ export const en: Content = {
   nav: {
     features: 'Features',
     download: 'Download',
-    classisland: 'ClassIsland',
+    about: 'About',
     community: 'Community',
     github: 'GitHub',
     menu: 'Menu',
@@ -40,11 +40,11 @@ export const en: Content = {
 
   hero: {
     title: 'Every lesson,\nat a glance.',
-    sub: 'ClassFabric quietly puts today’s timetable, the lesson in progress and more on your classroom screen. It speaks up when it should, and steps aside when it should.',
+    sub: 'ClassFabric quietly puts the timetable on your classroom screen: it speaks up when it should and steps aside when it should. It is a personal edition of ClassIsland that tracks upstream’s new features and adds improvements from individuals and the community.',
     primary: 'Download ClassFabric',
     secondary: 'See all features',
     note: 'For Windows 10 or later · 2.2 developer preview',
-    pill: 'A community-enhanced edition of ClassIsland',
+    pill: 'A personal edition of ClassIsland',
     demoLabel: 'Demo: open the profile editor from the tray, pick a subject for each lesson, close the window, and the schedule appears at the top of the screen.',
   },
 
@@ -164,10 +164,23 @@ export const en: Content = {
     latest: 'Latest release',
     viewRelease: 'Release notes',
   },
-  relation: {
-    title: 'Standing on upstream’s shoulders,\nwalking our own way.',
-    body: 'ClassFabric is a community fork of ClassIsland. What we inherited and what we built ourselves, we keep clearly apart.',
-    cta: 'About ClassFabric and ClassIsland',
+  switchBand: {
+    title: 'Coming from ClassIsland?\nNo need to start over.',
+    body: 'ClassFabric’s foundation stays consistent with upstream. After installing it, your existing schedules, automation, plugins and themes carry straight over.',
+    cta: 'More questions',
+  },
+  fit: {
+    title: 'Who it’s for',
+    yesTitle: 'It’s for you if you want to…',
+    yes: [
+      'Keep working in the ClassIsland ecosystem, but get upstream’s new features sooner.',
+      'Have it ready out of the box: install it and try new features from upstream, the community and us.',
+    ],
+    noTitle: 'It may not suit you if you…',
+    no: [
+      'Need an environment that stays the same for a long time.',
+      'Use it where stability is critical. ClassFabric actively follows upstream changes, so versions change relatively often.',
+    ],
   },
   open: {
     title: 'Open source.\nHelp us make it better.',
@@ -255,26 +268,59 @@ export const en: Content = {
     docsBody: 'For detailed installation and usage, see the docs (the upstream ClassIsland docs, which apply to ClassFabric too).',
     docs: 'Open docs',
   },
-  classislandPage: {
-    title: 'Standing on upstream’s shoulders,\nwalking our own way.',
-    lead: 'ClassFabric is a fork of ClassIsland. It continues from the upstream develop/v2/misha-alpha branch and keeps the ClassIsland v2 plugin compatibility layer.',
-    inheritTitle: 'Inherited from upstream',
-    inherit: [
-      'Core capabilities: schedule display, reminders, editing, components, plugins, automation and weather.',
-      'Upstream resources such as the docs and feature voting, which apply to ClassFabric as well.',
-      'The work of many upstream contributors. Thanks to HelloWRC and everyone who has given their time to ClassIsland.',
+  aboutPage: {
+    title: 'About\nClassFabric',
+    lead: 'For anyone who wants to know what it is and how it relates to ClassIsland.',
+    faq: [
+      {
+        q: 'What is ClassFabric?',
+        a: ['ClassFabric is a personal edition built on HelloWRC’s ClassIsland. We actively sync upstream’s latest features, and add changes from individuals and the community.'],
+      },
+      {
+        q: 'How does it relate to ClassIsland?',
+        a: [
+          'ClassFabric is neither a replacement for ClassIsland nor a competitor. It is built on top of it, much like PCL and PCLCE or other downstream launchers: inherit the original project, then go one step further.',
+          'Upstream’s work belongs to upstream. We do not present upstream changes as our own features.',
+        ],
+      },
+      {
+        q: 'Does switching from ClassIsland take complicated preparation?',
+        a: ['No. ClassFabric’s foundation stays consistent with upstream. After downloading and installing it, your existing schedules, automation, plugins and themes carry straight over.'],
+      },
+      {
+        q: 'Why choose ClassFabric?',
+        a: [
+          'If you want to keep working in the ClassIsland ecosystem but get upstream’s new features sooner, ClassFabric is for you.',
+          'If you want it ready out of the box, to try new features from upstream, the community and us right after installing, it is for you too.',
+        ],
+      },
+      {
+        q: 'Who is ClassFabric not for?',
+        a: [
+          'People who need an environment that never changes, and places where stability is critical. ClassFabric actively follows upstream changes, so versions change relatively often, and 2.2 is still a developer preview.',
+          'In that case, please also look at the stable releases of upstream ClassIsland.',
+        ],
+      },
+      {
+        q: 'Can I contribute?',
+        a: ['Of course. Open a pull request or an issue on GitHub; any valuable contribution is welcome. We will also consider sending meaningful contributions back upstream from time to time, to help build the ClassIsland ecosystem.'],
+      },
+      {
+        q: 'Where does “Fabric” come from?',
+        a: [
+          'The “Island” in ClassIsland comes from the iOS Dynamic Island. The “Fabric” in ClassFabric comes from Fabric, the well-known mod loader in the Minecraft community, and stands for connecting community and personal features.',
+          'ClassFabric is not affiliated with Minecraft or the Fabric project.',
+        ],
+      },
     ],
-    directionTitle: 'Where ClassFabric is heading',
-    direction: [
-      'Improve the experience, and grow its own features and design philosophy on top of what it inherits.',
-      'Go international: not just translated UI, but the different ways schools are organized, schedule models and habits across regions and school types.',
-    ],
-    directionNote: 'This is direction, not finished work. What is implemented is defined by the Features page and release notes.',
-    honestyTitle: 'Our principles',
-    honesty: [
-      { t: 'Clear credit', d: 'Upstream’s work belongs to upstream. We do not present upstream changes as our own features.' },
-      { t: 'No disparagement', d: 'ClassFabric and ClassIsland have different focuses, not a ranking.' },
-      { t: 'Honest about status', d: '2.2 is still a developer preview. If you need a stable release, look at upstream ClassIsland’s releases too.' },
+    planTitle: 'Planned',
+    planNote: 'These are directions we are planning. They are not finished, and the current version does not have them yet. What exists today is defined by the Features page and release notes.',
+    plan: [
+      { t: 'Multi-language and internationalization', d: 'Not only translated UI, but also the different ways schools are organized, schedule models and habits across regions and school types.' },
+      { t: 'Cloud features', d: 'Cloud-related capabilities. The exact shape is still being planned.' },
+      { t: 'Better automation', d: 'More powerful automation, partly drawing on the community plugin SystemTools.' },
+      { t: 'Better performance', d: 'Make it run more smoothly.' },
+      { t: 'More features', d: 'More changes from individuals and the community.' },
     ],
     resourcesTitle: 'Upstream resources',
     resources: [
@@ -283,7 +329,7 @@ export const en: Content = {
       { t: 'Documentation', u: 'https://docs.classisland.tech' },
     ],
     resourcesNote: 'The download entry, QQ channel and groups on the ClassIsland site belong to upstream and provide ClassIsland, not ClassFabric.',
-    thanks: 'ClassIsland was inspired by DuguSand/class_form.',
+    thanks: 'Thanks to HelloWRC and everyone who has given their time to ClassIsland. ClassIsland was inspired by DuguSand/class_form.',
   },
   communityPage: {
     title: 'Help us make it\nbetter.',

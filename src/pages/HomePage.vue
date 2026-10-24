@@ -36,7 +36,7 @@ const editorSubjects = computed(() => c.value.demo.picks.slice())
     <!-- Hero -->
     <section class="hero">
       <div class="wrap center">
-        <RouterLink to="/classisland" class="pill">{{ c.hero.pill }} <AppIcon name="arrow" :size="14" /></RouterLink>
+        <RouterLink to="/about" class="pill">{{ c.hero.pill }} <AppIcon name="arrow" :size="14" /></RouterLink>
         <h1 class="display" style="margin-top: 24px">{{ c.hero.title }}</h1>
         <p class="sub">{{ c.hero.sub }}</p>
         <div class="actions">
@@ -172,13 +172,29 @@ const editorSubjects = computed(() => c.value.demo.picks.slice())
       </div>
     </section>
 
-    <!-- Relation -->
+    <!-- Switching from ClassIsland -->
     <section class="sec">
       <div class="wrap wrap--narrow center">
-        <h2 v-reveal class="h2">{{ c.relation.title }}</h2>
-        <p v-reveal="80" class="sub">{{ c.relation.body }}</p>
-        <p v-reveal="140" style="margin-top: 28px">
-          <RouterLink to="/classisland" class="link">{{ c.relation.cta }} <AppIcon name="arrow" :size="16" /></RouterLink>
+        <h2 v-reveal class="h2">{{ c.switchBand.title }}</h2>
+        <p v-reveal="80" class="sub">{{ c.switchBand.body }}</p>
+      </div>
+      <div class="wrap" style="margin-top: 56px">
+        <div class="grid-2">
+          <div v-reveal class="card">
+            <h3 style="margin-top: 0">{{ c.fit.yesTitle }}</h3>
+            <ul class="list">
+              <li v-for="t in c.fit.yes" :key="t">{{ t }}</li>
+            </ul>
+          </div>
+          <div v-reveal="80" class="card">
+            <h3 style="margin-top: 0">{{ c.fit.noTitle }}</h3>
+            <ul class="list">
+              <li v-for="t in c.fit.no" :key="t">{{ t }}</li>
+            </ul>
+          </div>
+        </div>
+        <p v-reveal class="center" style="margin-top: 32px">
+          <RouterLink to="/about" class="link">{{ c.switchBand.cta }} <AppIcon name="arrow" :size="16" /></RouterLink>
         </p>
       </div>
     </section>
