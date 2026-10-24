@@ -2,7 +2,7 @@
 
 [ClassFabric](https://github.com/Ansoukin/ClassFabric) 官方网站源码。线上地址:<https://cf.ansoukin.top>
 
-**技术栈**:Vue 3 · Vuetify 3 · Vite · TypeScript。设计语言为 Fluent 2 骨架 + 编辑式排版(衬线标题、大留白)。
+**技术栈**:Vue 3 · Vuetify 3 · Vite · TypeScript。设计语言为 Windows Fluent 设计语言(Segoe UI Variable、4/8px 圆角、Mica 式表面),版式参考 Apple/微软官网的节奏。
 
 ## 本地开发
 
@@ -36,7 +36,7 @@ scripts/
 
 ### 首页演示
 
-`HeroDemo.vue` 是用 HTML/CSS 编写的风格化演示,**不是真实截图**。光标目标位置每一步都从真实 DOM 位置实时测量,所以不会错位。拿到真实截图后可以在需要的页面直接替换。
+`HeroDemo.vue`、`IslandBar.vue`、`EditorWindow.vue` 是按真实应用的 AXAML 布局与界面文案用 HTML/CSS 复刻的,**不是截图**(壁纸为 CSS 近似)。光标目标位置每一步都从真实 DOM 位置实时测量,不会错位。拿到 ClassFabric 自己的截图后可直接替换。
 
 ## 部署与 VPS 同步
 

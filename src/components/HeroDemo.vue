@@ -1,23 +1,46 @@
 <script setup lang="ts">
-import { reactive, ref, onMounted, onBeforeUnmount, nextTick } from 'vue'
+import { computed, reactive, ref, onMounted, onBeforeUnmount, nextTick } from 'vue'
 import { useLocale } from '@/composables/useLocale'
-import AppIcon from './AppIcon.vue'
+import IslandBar, { type Lesson, type Tile } from './IslandBar.vue'
+import EditorWindow from './EditorWindow.vue'
 
 /*
- * A stylized, scripted walkthrough built from HTML/CSS (not a screenshot):
- * tray → edit profile → fill the schedule → schedule shows on the desktop.
- * The canvas is a fixed 1000x625 design that is scaled to fit. The cursor
- * target is measured from real DOM rects every step, so it cannot drift.
+ * A scripted walkthrough on a recreated Windows desktop. The main window bar, the tray menu
+ * and the profile editor are rebuilt in HTML/CSS from the app's own layout and labels.
+ * Flow: tray icon → "Edit profile…" → pick a subject for each lesson (the app moves to the
+ * next lesson by itself) → close → the schedule shows on the main window.
+ * The canvas is a fixed 1280×720 design scaled to fit; the cursor target is measured from
+ * real DOM rects at every step, so it cannot drift.
  */
 const { c } = useLocale()
 
-const W = 1000
+const W = 1280
 const outer = ref<HTMLElement | null>(null)
 const canvas = ref<HTMLElement | null>(null)
 const scale = ref(0.5)
 const reduced = ref(false)
-const s = reactive({ menu: false, editor: false, filled: 0, configured: false })
-const cur = reactive({ x: 780, y: 480, down: false })
+const s = reactive({ menu: false, editor: false, step: 0, done: false })
+const cur = reactive({ x: 1040, y: 560, down: false })
+
+const subjects = computed<(number | null)[]>(() =>
+  c.value.demo.times.map((_, i) => (i < s.step ? c.value.demo.picks[i] : null)),
+)
+const sel = computed(() => (s.editor && s.step < c.value.demo.times.length ? s.step : -1))
+
+const lessons = computed<Lesson[]>(() =>
+  s.done
+    ? c.value.demo.picks.map((p, i) => ({
+        short: c.value.demo.picker[p].s,
+        full: c.value.demo.picker[p].f,
+        time: c.value.demo.times[i].replace('-', '–'),
+      }))
+    : [],
+)
+const tiles = computed<Tile[]>(() => [
+  { kind: 'date', text: c.value.demo.date },
+  { kind: 'clock', text: c.value.demo.clock },
+  ...(s.done ? [{ kind: 'countdown', text: c.value.demo.countdown } as Tile] : []),
+])
 
 let run = 0
 let ro: ResizeObserver | null = null
@@ -29,10 +52,10 @@ const sleep = (ms: number) => new Promise<void>((r) => setTimeout(r, ms))
 function reset() {
   s.menu = false
   s.editor = false
-  s.filled = 0
-  s.configured = false
-  cur.x = 780
-  cur.y = 480
+  s.step = 0
+  s.done = false
+  cur.x = 1040
+  cur.y = 560
 }
 
 async function wait(token: number, ms: number) {
@@ -51,13 +74,13 @@ async function go(token: number, sel: string) {
     cur.x = (r.left - cr.left + r.width / 2) / scale.value
     cur.y = (r.top - cr.top + r.height / 2) / scale.value
   }
-  await wait(token, 850)
+  await wait(token, 800)
 }
 
-async function click(token: number, sel: string, after: () => void, hold = 600) {
+async function click(token: number, sel: string, after: () => void, hold = 500) {
   await go(token, sel)
   cur.down = true
-  await wait(token, 140)
+  await wait(token, 130)
   cur.down = false
   after()
   await wait(token, hold)
@@ -67,22 +90,23 @@ async function loop(token: number) {
   try {
     while (token === run) {
       reset()
-      await wait(token, 1200)
-      await click(token, 'tray', () => (s.menu = true), 650)
+      await wait(token, 1400)
+      await click(token, 'tray', () => (s.menu = true), 600)
       await click(token, 'menu-edit', () => {
         s.menu = false
         s.editor = true
-      }, 800)
-      for (let i = 0; i < c.value.demo.subjects.length; i++) {
-        await click(token, `cell-${i}`, () => (s.filled = i + 1), 380)
+      }, 700)
+      for (const p of c.value.demo.picks) {
+        await click(token, `sub-${p}`, () => s.step++, 260)
       }
-      await click(token, 'done', () => {
+      await wait(token, 500)
+      await click(token, 'close', () => {
         s.editor = false
-        s.configured = true
+        s.done = true
       }, 400)
-      cur.x = 640
-      cur.y = 360
-      await wait(token, 5200)
+      cur.x = 760
+      cur.y = 330
+      await wait(token, 6500)
     }
   } catch (e) {
     if (!(e instanceof Stop)) throw e
@@ -99,7 +123,8 @@ onMounted(() => {
 
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
     reduced.value = true
-    s.configured = true
+    s.step = c.value.demo.picks.length
+    s.done = true
     return
   }
   io = new IntersectionObserver(
@@ -107,7 +132,7 @@ onMounted(() => {
       run++
       if (entries[0]?.isIntersecting) void loop(run)
     },
-    { threshold: 0.25 },
+    { threshold: 0.3 },
   )
   io.observe(el)
 })
@@ -122,79 +147,48 @@ onBeforeUnmount(() => {
 <template>
   <div ref="outer" class="demo" role="img" :aria-label="c.hero.demoLabel">
     <div ref="canvas" class="canvas" :style="{ transform: `scale(${scale})` }" aria-hidden="true">
-      <div class="wall" />
+      <div class="wallpaper" />
 
-      <!-- Desktop island -->
-      <div class="island" :class="{ on: s.configured }" data-t="island">
-        <div class="island__empty">{{ c.demo.islandEmpty }}</div>
-        <div class="island__live">
-          <div class="clock">
-            <b>08:27</b>
-            <span><i class="dot" />{{ c.demo.now }}</span>
-          </div>
-          <div class="chips">
-            <div v-for="(sub, i) in c.demo.subjects" :key="i" class="chip" :class="{ act: i === 0 }">
-              <b>{{ sub }}</b>
-              <span>{{ c.demo.times[i] }}</span>
-            </div>
-          </div>
-          <div class="side">
-            <b>{{ c.demo.remain }}</b>
-            <span>{{ c.demo.next }}</span>
-          </div>
-        </div>
+      <!-- Main window bar -->
+      <div class="island">
+        <IslandBar :lessons="lessons" :break-after="[3]" :active="2" :progress="0.45" :tiles="tiles" :size="21" />
       </div>
 
       <!-- Profile editor -->
       <div class="win" :class="{ open: s.editor }">
-        <div class="win__bar">
-          <img src="/logo.svg" alt="" width="18" height="18" />
-          <span>{{ c.demo.editorTitle }}</span>
-          <AppIcon name="close" :size="16" />
-        </div>
-        <div class="win__body">
-          <ul class="win__nav">
-            <li v-for="(n, i) in c.demo.editorNav" :key="i" :class="{ on: i === 0 }">{{ n }}</li>
-          </ul>
-          <div class="win__main">
-            <div v-for="(sub, i) in c.demo.subjects" :key="i" class="row">
-              <span class="row__t">{{ c.demo.times[i] }}</span>
-              <div class="cell" :class="{ filled: s.filled > i }" :data-t="`cell-${i}`">
-                <template v-if="s.filled > i">{{ sub }}</template>
-                <span v-else class="plus">+</span>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="win__foot">
-          <span class="done" data-t="done">{{ c.demo.editorDone }}</span>
-        </div>
+        <EditorWindow :subjects="subjects" :sel="sel" />
       </div>
 
       <!-- Tray menu -->
-      <ul class="menu" :class="{ open: s.menu }">
-        <li v-for="(m, i) in c.demo.trayMenu" :key="i" :data-t="i === 0 ? 'menu-edit' : undefined">{{ m }}</li>
-      </ul>
+      <div class="menu" :class="{ open: s.menu }">
+        <div class="menu__head"><img src="/logo.svg" alt="" width="22" height="22" />{{ c.demo.appName }}</div>
+        <template v-for="(m, i) in c.demo.trayMenu" :key="i">
+          <div class="menu__item" :data-t="i === c.demo.trayEditIndex ? 'menu-edit' : undefined">{{ m }}</div>
+          <div v-if="c.demo.trayDividerAfter.includes(i)" class="menu__sep" />
+        </template>
+      </div>
 
       <!-- Taskbar -->
       <div class="taskbar">
         <div class="tb-center">
-          <i class="sq win11" />
-          <i class="sq" />
-          <i class="sq" />
-          <i class="sq" />
+          <span class="start"><i /><i /><i /><i /></span>
+          <span class="app edge" />
+          <span class="app folder" />
+          <img class="app" src="/logo.svg" alt="" width="26" height="26" />
         </div>
         <div class="tb-right">
-          <i class="mini" />
-          <i class="mini" />
+          <span class="chev">⌃</span>
           <img src="/logo.svg" alt="" width="22" height="22" data-t="tray" />
-          <span>08:27</span>
+          <span class="mini" />
+          <span class="mini" />
+          <span class="mini" />
+          <span class="time">10:12<br />2026/10/23</span>
         </div>
       </div>
 
       <!-- Cursor -->
       <div v-if="!reduced" class="cursor" :class="{ down: cur.down }" :style="{ transform: `translate(${cur.x}px, ${cur.y}px)` }">
-        <svg width="24" height="26" viewBox="0 0 24 26">
+        <svg width="26" height="28" viewBox="0 0 24 26">
           <path d="M3 2v18l5-4.4 3.4 7.6 3.2-1.5-3.4-7.4H19z" fill="#111" stroke="#fff" stroke-width="1.5" stroke-linejoin="round" />
         </svg>
       </div>
@@ -206,316 +200,156 @@ onBeforeUnmount(() => {
 .demo {
   position: relative;
   width: 100%;
-  aspect-ratio: 1000 / 625;
+  aspect-ratio: 16 / 9;
   overflow: hidden;
-  border-radius: 16px;
-  border: 1px solid var(--line);
-  box-shadow: var(--shadow);
-  background: var(--bg-alt);
+  border-radius: 12px;
+  box-shadow: var(--shadow-28);
+  background: #02060f;
 }
 .canvas {
   position: absolute;
   left: 0;
   top: 0;
-  width: 1000px;
-  height: 625px;
+  width: 1280px;
+  height: 720px;
   transform-origin: 0 0;
-  font-size: 15px;
-  line-height: 1.3;
-  color: var(--ink);
+  font-family: 'Segoe UI Variable Text', 'Segoe UI', 'Microsoft YaHei UI', 'Microsoft YaHei', system-ui, sans-serif;
+  color: #fff;
   user-select: none;
 }
-.wall {
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(900px 500px at 20% 10%, color-mix(in srgb, var(--brand) 22%, transparent), transparent 60%),
-    radial-gradient(800px 520px at 90% 90%, color-mix(in srgb, var(--brand) 14%, transparent), transparent 60%),
-    linear-gradient(160deg, var(--bg-alt), var(--bg));
-}
-
-/* island */
 .island {
   position: absolute;
-  top: 28px;
-  left: 150px;
-  width: 700px;
-  height: 78px;
-  border-radius: 20px;
-  background: color-mix(in srgb, var(--surface) 92%, transparent);
-  border: 1px solid var(--line);
-  box-shadow: var(--shadow);
-  display: grid;
-  place-items: center;
-}
-.island__empty {
-  color: var(--ink-3);
-  font-size: 15px;
-  transition: opacity 0.4s;
-}
-.island__live {
-  position: absolute;
-  inset: 0;
+  top: 14px;
+  left: 0;
+  right: 0;
   display: flex;
-  align-items: center;
-  gap: 18px;
-  padding: 0 22px;
-  opacity: 0;
-  transform: translateY(-6px);
-  transition: opacity 0.6s ease, transform 0.6s ease;
+  justify-content: center;
 }
-.island.on .island__live {
-  opacity: 1;
-  transform: none;
-}
-.island.on .island__empty {
-  opacity: 0;
-}
-.clock {
-  display: grid;
-  gap: 2px;
-  min-width: 96px;
-}
-.clock b {
-  font-size: 30px;
-  font-weight: 600;
-  letter-spacing: -0.02em;
-}
-.clock span,
-.side span,
-.chip span {
-  font-size: 12px;
-  color: var(--ink-3);
-}
-.dot {
-  display: inline-block;
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: #3fb950;
-  margin-right: 6px;
-}
-.chips {
-  display: flex;
-  gap: 8px;
-  flex: 1;
-}
-.chip {
-  flex: 1;
-  height: 52px;
-  border-radius: 10px;
-  background: var(--surface-2);
-  border: 1px solid var(--line);
-  display: grid;
-  place-content: center;
-  text-align: center;
-}
-.chip b {
-  font-size: 15px;
-}
-.chip.act {
-  background: var(--brand);
-  border-color: transparent;
-  color: var(--brand-ink);
-}
-.chip.act span {
-  color: color-mix(in srgb, var(--brand-ink) 75%, transparent);
-}
-.side {
-  display: grid;
-  gap: 2px;
-  text-align: right;
-  min-width: 110px;
-}
-.side b {
-  font-size: 15px;
-}
-
-/* editor window */
 .win {
   position: absolute;
-  left: 160px;
-  top: 128px;
-  width: 680px;
-  height: 392px;
-  border-radius: 12px;
-  background: var(--surface);
-  border: 1px solid var(--line);
-  box-shadow: var(--shadow);
-  display: flex;
-  flex-direction: column;
+  left: 140px;
+  top: 78px;
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.35s ease;
+  transition: opacity 0.3s ease;
 }
 .win.open {
   opacity: 1;
 }
-.win__bar {
-  height: 44px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 0 14px;
-  border-bottom: 1px solid var(--line);
-  font-size: 13px;
-  color: var(--ink-2);
-}
-.win__bar span {
-  flex: 1;
-}
-.win__body {
-  flex: 1;
-  display: grid;
-  grid-template-columns: 150px 1fr;
-  min-height: 0;
-}
-.win__nav {
-  list-style: none;
-  margin: 0;
-  padding: 14px 10px;
-  border-right: 1px solid var(--line);
-  display: grid;
-  gap: 4px;
-  align-content: start;
-}
-.win__nav li {
-  padding: 9px 12px;
-  border-radius: 8px;
-  color: var(--ink-2);
-}
-.win__nav li.on {
-  background: var(--brand-soft);
-  color: var(--ink);
-  font-weight: 600;
-}
-.win__main {
-  padding: 18px 22px;
-  display: grid;
-  gap: 10px;
-  align-content: start;
-}
-.row {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-.row__t {
-  width: 52px;
-  color: var(--ink-3);
-  font-variant-numeric: tabular-nums;
-}
-.cell {
-  flex: 1;
-  height: 48px;
-  border-radius: 8px;
-  border: 1px dashed color-mix(in srgb, var(--ink) 25%, transparent);
-  display: grid;
-  place-items: center;
-  color: var(--ink-3);
-  transition: background 0.25s, border-color 0.25s, color 0.25s;
-}
-.cell.filled {
-  border-style: solid;
-  border-color: transparent;
-  background: var(--brand-soft);
-  color: var(--ink);
-  font-weight: 600;
-}
-.win__foot {
-  height: 56px;
-  border-top: 1px solid var(--line);
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  padding: 0 18px;
-}
-.done {
-  background: var(--brand);
-  color: var(--brand-ink);
-  font-weight: 600;
-  border-radius: 8px;
-  padding: 8px 22px;
-}
 
-/* tray menu */
+/* Windows 11 context menu */
 .menu {
   position: absolute;
-  right: 36px;
-  bottom: 56px;
-  width: 190px;
-  margin: 0;
+  right: 52px;
+  bottom: 62px;
+  width: 300px;
   padding: 6px;
-  list-style: none;
-  border-radius: 12px;
-  background: var(--surface);
-  border: 1px solid var(--line);
-  box-shadow: var(--shadow);
+  border-radius: 8px;
+  background: rgba(44, 44, 44, 0.96);
+  border: 1px solid #505050;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.55);
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.25s ease;
+  transition: opacity 0.2s ease;
+  font-size: 17px;
 }
 .menu.open {
   opacity: 1;
 }
-.menu li {
+.menu__head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
   padding: 10px 12px;
-  border-radius: 8px;
+  font-size: 19px;
 }
-.menu li:first-child {
-  background: var(--brand-soft);
+.menu__item {
+  padding: 9px 12px 9px 46px;
+  border-radius: 4px;
+  font-weight: 500;
+}
+.menu__sep {
+  height: 1px;
+  margin: 5px 6px;
+  background: #4d4d4d;
 }
 
-/* taskbar */
+/* Taskbar */
 .taskbar {
   position: absolute;
   left: 0;
   right: 0;
   bottom: 0;
-  height: 46px;
-  background: color-mix(in srgb, var(--surface) 88%, transparent);
-  border-top: 1px solid var(--line);
+  height: 52px;
+  background: rgba(24, 28, 40, 0.92);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
   display: flex;
   align-items: center;
   justify-content: center;
 }
 .tb-center {
   display: flex;
-  gap: 8px;
+  align-items: center;
+  gap: 18px;
 }
-.sq {
+.start {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+  width: 22px;
+  height: 22px;
+}
+.start i {
+  background: #4cc2ff;
+  border-radius: 1px;
+}
+.app {
   width: 26px;
   height: 26px;
-  border-radius: 7px;
-  background: color-mix(in srgb, var(--ink) 12%, transparent);
+  border-radius: 6px;
 }
-.sq.win11 {
-  background: var(--brand);
+.edge {
+  background: conic-gradient(from 200deg, #36c1a0, #1a7fd8, #2ca3f0, #36c1a0);
+  border-radius: 50%;
+}
+.folder {
+  background: linear-gradient(180deg, #ffd66b, #f5a623);
+  border-radius: 4px;
 }
 .tb-right {
   position: absolute;
-  right: 18px;
+  right: 20px;
   display: flex;
   align-items: center;
-  gap: 10px;
-  font-size: 12px;
-  color: var(--ink-2);
+  gap: 14px;
+  font-size: 13px;
+}
+.chev {
+  font-size: 15px;
+  transform: scaleX(1.4);
+  color: #ddd;
 }
 .mini {
-  width: 14px;
-  height: 14px;
+  width: 16px;
+  height: 16px;
   border-radius: 4px;
-  background: color-mix(in srgb, var(--ink) 18%, transparent);
+  background: rgba(255, 255, 255, 0.55);
+}
+.time {
+  text-align: right;
+  line-height: 1.25;
+  font-size: 12.5px;
 }
 
-/* cursor */
+/* Cursor */
 .cursor {
   position: absolute;
   left: 0;
   top: 0;
-  z-index: 5;
+  z-index: 9;
   pointer-events: none;
-  transition: transform 0.8s cubic-bezier(0.45, 0, 0.2, 1);
-  filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.35));
+  transition: transform 0.75s cubic-bezier(0.45, 0, 0.2, 1);
+  filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.45));
 }
 .cursor svg {
   display: block;

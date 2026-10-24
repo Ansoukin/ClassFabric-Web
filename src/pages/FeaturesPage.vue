@@ -7,11 +7,10 @@ const { c } = useLocale()
 
 <template>
   <div>
-    <section class="hero weave" style="padding-bottom: 40px">
+    <section class="page-head">
       <div class="wrap">
-        <p class="eyebrow">{{ c.featuresPage.eyebrow }}</p>
         <h1 class="h1">{{ c.featuresPage.title }}</h1>
-        <p class="lead">{{ c.featuresPage.lead }}</p>
+        <p class="sub">{{ c.featuresPage.lead }}</p>
       </div>
     </section>
 

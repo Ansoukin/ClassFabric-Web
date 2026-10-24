@@ -66,8 +66,7 @@ const modeIcon = computed(() => (mode.value === 'light' ? 'sun' : mode.value ===
       </v-menu>
 
       <a
-        class="btn nav-gh"
-        style="height: 36px; padding: 0 14px; font-size: 14px"
+        class="btn btn--sm nav-gh"
         href="https://github.com/Ansoukin/ClassFabric"
         target="_blank"
         rel="noopener"

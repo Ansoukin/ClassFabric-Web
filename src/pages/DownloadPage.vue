@@ -16,18 +16,17 @@ const published = computed(() => {
 
 <template>
   <div>
-    <section class="hero weave" style="padding-bottom: 48px">
+    <section class="page-head">
       <div class="wrap">
-        <p class="eyebrow">{{ c.downloadPage.eyebrow }}</p>
         <h1 class="h1">{{ c.downloadPage.title }}</h1>
-        <p class="lead">{{ c.downloadPage.lead }}</p>
+        <p class="sub">{{ c.downloadPage.lead }}</p>
       </div>
     </section>
 
-    <section class="wrap" style="padding-bottom: 40px">
+    <section class="wrap" style="padding-bottom: 32px">
       <div v-reveal class="release">
         <div class="small" style="margin-bottom: 8px">{{ c.downloadPage.latest }}</div>
-        <div class="release__top">
+        <div style="display: flex; flex-wrap: wrap; gap: 12px 16px; align-items: center">
           <span class="release__tag">{{ release.tag }}</span>
           <span class="badge">{{ release.prerelease ? c.downloadPage.preview : c.downloadPage.stable }}</span>
         </div>
@@ -76,7 +75,7 @@ const published = computed(() => {
           <strong>{{ c.downloadPage.upstreamTitle }}</strong><br />{{ c.downloadPage.upstream }}
         </div>
       </div>
-      <div v-reveal class="card" style="margin-top: 20px">
+      <div v-reveal class="card" style="margin-top: 16px">
         <h3 style="margin-top: 0">{{ c.downloadPage.docsTitle }}</h3>
         <p>{{ c.downloadPage.docsBody }}</p>
         <p style="margin-top: 14px">

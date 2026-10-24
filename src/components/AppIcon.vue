@@ -25,6 +25,9 @@ const paths: Record<string, string> = {
   people: 'M9 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM3 20a6 6 0 0 1 12 0M16 11a2.5 2.5 0 1 0 0-5M18 20a5 5 0 0 0-3-4.6',
   menu: 'M4 7h16M4 12h16M4 17h16',
   close: 'M6 6l12 12M18 6L6 18',
+  minus: 'M5 12h14',
+  square: 'M5 5h14v14H5z',
+  clock: 'M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM12 7v5l3 2',
 }
 </script>
 

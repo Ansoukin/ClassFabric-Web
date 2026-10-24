@@ -5,11 +5,11 @@ const { c } = useLocale()
 </script>
 
 <template>
-  <section class="hero weave" style="min-height: 60vh">
+  <section class="page-head" style="min-height: 55vh">
     <div class="wrap">
       <p class="eyebrow">404</p>
       <h1 class="h1">{{ c.notFound.title }}</h1>
-      <p class="lead">{{ c.notFound.body }}</p>
+      <p class="sub">{{ c.notFound.body }}</p>
       <div class="actions">
         <RouterLink to="/" class="btn btn--primary">{{ c.notFound.back }}</RouterLink>
       </div>

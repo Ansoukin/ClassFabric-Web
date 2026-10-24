@@ -1,72 +1,161 @@
 <script setup lang="ts">
+import { computed } from 'vue'
 import { useLocale } from '@/composables/useLocale'
 import { release } from '@/lib/release'
 import HeroDemo from '@/components/HeroDemo.vue'
+import IslandBar, { type Lesson, type Tile } from '@/components/IslandBar.vue'
+import NoticeBar from '@/components/NoticeBar.vue'
+import EditorWindow from '@/components/EditorWindow.vue'
+import ScaleBox from '@/components/ScaleBox.vue'
 import AppIcon from '@/components/AppIcon.vue'
 
 const { c } = useLocale()
+
+const lessons = computed<Lesson[]>(() =>
+  c.value.demo.picks.map((p, i) => ({
+    short: c.value.demo.picker[p].s,
+    full: c.value.demo.picker[p].f,
+    time: c.value.demo.times[i].replace('-', '–'),
+  })),
+)
+const tilesFluent = computed<Tile[]>(() => [
+  { kind: 'date', text: c.value.demo.date },
+  { kind: 'clock', text: c.value.demo.clock },
+  { kind: 'countdown', text: c.value.demo.countdown },
+])
+const tilesClassic = computed<Tile[]>(() => [
+  { kind: 'weather', text: c.value.demo.weather },
+  { kind: 'date', text: c.value.demo.date },
+  { kind: 'countdown', text: c.value.demo.countdown },
+])
+const editorSubjects = computed(() => c.value.demo.picks.slice())
 </script>
 
 <template>
   <div>
-    <section class="hero weave">
-      <div class="wrap">
-        <p class="eyebrow">{{ c.hero.eyebrow }}</p>
-        <h1 class="display">{{ c.hero.title }}</h1>
-        <p class="lead">{{ c.hero.sub }}</p>
+    <!-- Hero -->
+    <section class="hero">
+      <div class="wrap center">
+        <RouterLink to="/classisland" class="pill">{{ c.hero.pill }} <AppIcon name="arrow" :size="14" /></RouterLink>
+        <h1 class="display" style="margin-top: 24px">{{ c.hero.title }}</h1>
+        <p class="sub">{{ c.hero.sub }}</p>
         <div class="actions">
           <RouterLink to="/download" class="btn btn--primary">
-            {{ c.hero.primary }} <AppIcon name="download" :size="18" />
+            <AppIcon name="download" :size="18" />{{ c.hero.primary }}
           </RouterLink>
-          <a class="btn" href="https://github.com/Ansoukin/ClassFabric" target="_blank" rel="noopener">
-            <AppIcon name="code" :size="18" />{{ c.hero.secondary }}
-          </a>
+          <RouterLink to="/features" class="btn">{{ c.hero.secondary }}</RouterLink>
         </div>
-        <p class="note">{{ c.hero.note }}</p>
-        <HeroDemo class="hero__demo" />
+        <p class="small" style="margin-top: 16px">{{ c.hero.note }}</p>
+      </div>
+      <div class="wrap hero__demo">
+        <HeroDemo />
       </div>
     </section>
 
+    <!-- Main window -->
     <section class="sec">
       <div class="wrap">
-        <div v-reveal class="section-head">
-          <p class="eyebrow">{{ c.pillars.eyebrow }}</p>
-          <h2 class="h2">{{ c.pillars.title }}</h2>
+        <div v-reveal class="feature-head">
+          <p class="eyebrow">{{ c.island.eyebrow }}</p>
+          <h2 class="h2">{{ c.island.title }}</h2>
+          <p class="sub">{{ c.island.sub }}</p>
         </div>
-        <div class="grid-3">
-          <article v-for="(p, i) in c.pillars.items" :key="p.title" v-reveal="i * 80" class="card">
-            <span class="tile"><AppIcon :name="p.icon" :size="22" /></span>
-            <h3>{{ p.title }}</h3>
-            <p>{{ p.desc }}</p>
-          </article>
+        <div v-reveal class="stage">
+          <div class="wallpaper" />
+          <ScaleBox :w="1200" :h="440">
+            <div class="bars">
+              <IslandBar :lessons="lessons" :break-after="[3]" :active="2" :progress="0.45" :tiles="tilesFluent" :size="26" />
+              <IslandBar variant="classic" :lessons="lessons" :active="2" :progress="0.45" :tiles="tilesClassic" :size="24" />
+            </div>
+          </ScaleBox>
+        </div>
+        <ul v-reveal class="points">
+          <li v-for="p in c.island.points" :key="p.t"><b>{{ p.t }}</b>{{ p.d }}</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Reminders -->
+    <section class="sec sec--dark force-dark">
+      <div class="wrap">
+        <div v-reveal class="feature-head">
+          <p class="eyebrow">{{ c.notify.eyebrow }}</p>
+          <h2 class="h2">{{ c.notify.title }}</h2>
+          <p class="sub">{{ c.notify.sub }}</p>
+        </div>
+        <div v-reveal class="stage">
+          <div class="wallpaper wallpaper--soft" />
+          <ScaleBox :w="1200" :h="400">
+            <div class="bars bars--notice">
+              <NoticeBar v-for="n in c.demo.notices" :key="n.kind" :kind="n.kind" :a="n.a" :b="n.b" :size="25" />
+            </div>
+          </ScaleBox>
+        </div>
+        <ul v-reveal class="points">
+          <li v-for="p in c.notify.points" :key="p.t"><b>{{ p.t }}</b>{{ p.d }}</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Editor -->
+    <section class="sec">
+      <div class="wrap">
+        <div v-reveal class="feature-head">
+          <p class="eyebrow">{{ c.edit.eyebrow }}</p>
+          <h2 class="h2">{{ c.edit.title }}</h2>
+          <p class="sub">{{ c.edit.sub }}</p>
+        </div>
+        <div v-reveal class="stage">
+          <div class="wallpaper" />
+          <ScaleBox :w="1200" :h="660">
+            <div class="editor-pos"><EditorWindow :subjects="editorSubjects" :sel="-1" /></div>
+          </ScaleBox>
+        </div>
+        <ul v-reveal class="points">
+          <li v-for="p in c.edit.points" :key="p.t"><b>{{ p.t }}</b>{{ p.d }}</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Components -->
+    <section class="sec sec--alt">
+      <div class="wrap">
+        <div v-reveal class="feature-head" style="margin-bottom: 40px">
+          <p class="eyebrow">{{ c.comps.eyebrow }}</p>
+          <h2 class="h2">{{ c.comps.title }}</h2>
+          <p class="sub">{{ c.comps.sub }}</p>
+        </div>
+        <div v-reveal class="chips">
+          <span v-for="t in c.comps.list" :key="t">{{ t }}</span>
         </div>
       </div>
     </section>
 
-    <section class="sec sec--alt">
+    <!-- More -->
+    <section class="sec">
       <div class="wrap">
-        <div v-reveal class="section-head">
-          <p class="eyebrow">{{ c.showcase.eyebrow }}</p>
-          <h2 class="h2">{{ c.showcase.title }}</h2>
+        <div v-reveal class="feature-head" style="margin-bottom: 48px">
+          <p class="eyebrow">{{ c.more.eyebrow }}</p>
+          <h2 class="h2">{{ c.more.title }}</h2>
         </div>
-        <div class="showcase">
-          <div v-for="(f, i) in c.showcase.items" :key="f.title" v-reveal="(i % 3) * 80">
-            <span class="tile"><AppIcon :name="f.icon" :size="22" /></span>
-            <h3>{{ f.title }}</h3>
-            <p>{{ f.desc }}</p>
-          </div>
+        <div class="grid-3">
+          <article v-for="(m, i) in c.more.items" :key="m.t" v-reveal="(i % 3) * 70" class="card">
+            <span class="tile"><AppIcon :name="m.icon" :size="22" /></span>
+            <h3>{{ m.t }}</h3>
+            <p>{{ m.d }}</p>
+          </article>
         </div>
-        <p v-reveal style="margin-top: 52px">
-          <RouterLink to="/features" class="link">{{ c.showcase.cta }} <AppIcon name="arrow" :size="18" /></RouterLink>
+        <p v-reveal class="center" style="margin-top: 40px">
+          <RouterLink to="/features" class="link">{{ c.hero.secondary }} <AppIcon name="arrow" :size="16" /></RouterLink>
         </p>
       </div>
     </section>
 
-    <section class="sec">
+    <!-- Honest status -->
+    <section class="sec sec--tight sec--alt">
       <div class="wrap">
-        <div v-reveal class="section-head">
-          <p class="eyebrow">{{ c.status.eyebrow }}</p>
-          <h2 class="h2">{{ c.status.title }}</h2>
+        <div v-reveal class="feature-head" style="margin-bottom: 36px">
+          <h2 class="h2" style="font-size: clamp(28px, 3.6vw, 40px)">{{ c.status.title }}</h2>
         </div>
         <div v-reveal class="status">
           <div v-for="it in c.status.items" :key="it.k">
@@ -75,41 +164,83 @@ const { c } = useLocale()
             <p class="d">{{ it.d }}</p>
           </div>
         </div>
-        <div v-reveal class="latest">
-          <span>{{ c.status.latest }}</span>
-          <strong style="color: var(--ink)">{{ release.tag }}</strong>
-          <span v-if="release.prerelease" class="badge">{{ c.downloadPage.preview }}</span>
-          <a class="link" :href="release.url" target="_blank" rel="noopener">
-            {{ c.status.viewRelease }} <AppIcon name="external" :size="15" />
-          </a>
-        </div>
+        <p v-reveal class="center small" style="margin-top: 20px">
+          {{ c.status.latest }} · <strong style="color: var(--ink)">{{ release.tag }}</strong>
+          <span v-if="release.prerelease" class="badge" style="margin-left: 8px">{{ c.downloadPage.preview }}</span>
+          · <a class="link" style="font-size: 13.5px" :href="release.url" target="_blank" rel="noopener">{{ c.status.viewRelease }}</a>
+        </p>
       </div>
     </section>
 
-    <section class="sec sec--alt">
-      <div class="wrap split">
-        <div v-reveal>
-          <p class="eyebrow">{{ c.relation.eyebrow }}</p>
-          <h2 class="h2">{{ c.relation.title }}</h2>
-        </div>
-        <div v-reveal="100">
-          <p class="muted" style="margin: 0 0 24px; font-size: 17px">{{ c.relation.body }}</p>
-          <RouterLink to="/classisland" class="link">{{ c.relation.cta }} <AppIcon name="arrow" :size="18" /></RouterLink>
-        </div>
+    <!-- Relation -->
+    <section class="sec">
+      <div class="wrap wrap--narrow center">
+        <h2 v-reveal class="h2">{{ c.relation.title }}</h2>
+        <p v-reveal="80" class="sub">{{ c.relation.body }}</p>
+        <p v-reveal="140" style="margin-top: 28px">
+          <RouterLink to="/classisland" class="link">{{ c.relation.cta }} <AppIcon name="arrow" :size="16" /></RouterLink>
+        </p>
       </div>
     </section>
 
-    <section class="cta weave">
+    <!-- CTA -->
+    <section class="sec sec--alt center">
       <div class="wrap">
         <h2 v-reveal class="h1">{{ c.open.title }}</h2>
-        <p v-reveal="80" class="lead">{{ c.open.body }}</p>
-        <div v-reveal="160" class="actions">
-          <a class="btn btn--primary" href="https://github.com/Ansoukin/ClassFabric" target="_blank" rel="noopener">
-            <AppIcon name="code" :size="18" />{{ c.open.primary }}
+        <p v-reveal="80" class="sub" style="margin-inline: auto; max-width: 560px">{{ c.open.body }}</p>
+        <div v-reveal="140" class="actions">
+          <RouterLink to="/download" class="btn btn--primary">
+            <AppIcon name="download" :size="18" />{{ c.open.primary }}
+          </RouterLink>
+          <a class="btn" href="https://github.com/Ansoukin/ClassFabric" target="_blank" rel="noopener">
+            <AppIcon name="code" :size="18" />{{ c.open.secondary }}
           </a>
-          <RouterLink to="/community" class="btn">{{ c.open.secondary }}</RouterLink>
         </div>
       </div>
     </section>
   </div>
 </template>
+
+<style scoped>
+.hero {
+  padding: 72px 0 40px;
+}
+.hero__demo {
+  margin-top: 56px;
+}
+.bars {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 90px;
+}
+.bars--notice {
+  gap: 36px;
+}
+.editor-pos {
+  position: absolute;
+  left: 100px;
+  top: 50px;
+}
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  max-width: 860px;
+  margin: 0 auto;
+}
+.chips span {
+  padding: 12px 22px;
+  border-radius: var(--r-md);
+  background: var(--surface);
+  border: 1px solid var(--line-2);
+  box-shadow: var(--shadow-4);
+  font-size: 17px;
+  font-weight: 600;
+  font-family: var(--font-display);
+}
+</style>

@@ -11,20 +11,20 @@ const dist = resolve(dirname(fileURLToPath(import.meta.url)), '../dist')
 
 const routes = {
   features: {
-    title: '功能 · ClassFabric',
-    desc: '课表显示与提醒、课表编辑与导入导出、组件与插件、自动化、天气、应用保护——ClassFabric 的完整功能一览。',
+    title: '功能 — ClassFabric',
+    desc: '课表显示与提醒、课表编辑与导入导出、组件与插件、自动化、天气、应用保护。ClassFabric 的完整功能一览。',
   },
   download: {
-    title: '下载 · ClassFabric',
-    desc: '从 GitHub Releases 下载 ClassFabric。当前支持 Windows 10 及更高版本,2.2 处于开发者预览阶段。',
+    title: '下载 — ClassFabric',
+    desc: '从 GitHub Releases 下载 ClassFabric。支持 Windows 10 及更高版本,2.2 目前为开发者预览版。',
   },
   classisland: {
-    title: '与 ClassIsland 的关系 · ClassFabric',
-    desc: 'ClassFabric 是 ClassIsland 的社区衍生项目。了解它继承了什么、想改变什么,以及我们如何对待上游。',
+    title: '与 ClassIsland 的关系 — ClassFabric',
+    desc: 'ClassFabric 是 ClassIsland 的社区衍生项目。我们继承了什么,想改变什么,又如何对待上游。',
   },
   community: {
-    title: '社区与参与 · ClassFabric',
-    desc: '在 GitHub 上提交 Issue、参与讨论、贡献代码或开发插件——参与 ClassFabric 的方式。',
+    title: '社区 — ClassFabric',
+    desc: '提交 Issue、参与讨论、贡献代码、开发插件。参与 ClassFabric 的方式。',
   },
 }
 

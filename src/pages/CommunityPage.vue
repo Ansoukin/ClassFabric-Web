@@ -7,17 +7,16 @@ const { c } = useLocale()
 
 <template>
   <div>
-    <section class="hero weave" style="padding-bottom: 48px">
+    <section class="page-head">
       <div class="wrap">
-        <p class="eyebrow">{{ c.communityPage.eyebrow }}</p>
         <h1 class="h1">{{ c.communityPage.title }}</h1>
-        <p class="lead">{{ c.communityPage.lead }}</p>
+        <p class="sub">{{ c.communityPage.lead }}</p>
       </div>
     </section>
 
-    <section class="wrap" style="padding-bottom: 72px">
+    <section class="wrap" style="padding-bottom: 56px">
       <div class="grid-2">
-        <article v-for="(it, i) in c.communityPage.items" :key="it.title" v-reveal="(i % 2) * 80" class="card">
+        <article v-for="(it, i) in c.communityPage.items" :key="it.title" v-reveal="(i % 2) * 70" class="card">
           <span class="tile"><AppIcon :name="it.icon" :size="22" /></span>
           <h3>{{ it.title }}</h3>
           <p>{{ it.desc }}</p>
