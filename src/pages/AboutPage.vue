@@ -34,7 +34,7 @@ const p = computed(() => c.value.aboutPage)
         </div>
         <div class="grid-3">
           <article v-for="(it, i) in p.plan" :key="it.t" v-reveal="(i % 3) * 70" class="card">
-            <span class="badge">{{ p.planTitle }}</span>
+            <span class="badge">{{ it.s }}</span>
             <h3>{{ it.t }}</h3>
             <p>{{ it.d }}</p>
           </article>
